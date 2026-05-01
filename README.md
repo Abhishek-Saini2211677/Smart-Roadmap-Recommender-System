@@ -1,85 +1,149 @@
-# Smart-Roadmap-Recommender-System
+# 🚀 Smart Roadmap Recommender System (CareerPilot)
 
-🚀 CareerPilot – AI-based Personalized Career & Skills Advisor
+## 🎯 AI-Based Personalized Career & Skills Advisor
 
-CareerPilot is an AI-powered career and skills advisor that helps students and professionals discover suitable career paths, get personalized course recommendations, and build a skill-based learning roadmap.
+**CareerPilot** is an AI-powered platform designed to help students and professionals discover suitable career paths, receive personalized course recommendations, and build structured learning roadmaps based on their skills and interests.
 
-📌 Features
+---
 
-Career Prediction → Suggests possible career roles based on user skills & interests
+## ✨ Features
 
-Course Recommendations → Uses TF-IDF similarity on skills to suggest best-fit courses (Coursera, Udemy, etc.)
+* 🔮 **Career Prediction**
+  Suggests suitable career roles based on user skills and interests.
 
-Roadmap Generation → Short-term + long-term skill roadmap for chosen roles
+* 📚 **Course Recommendations**
+  Uses **TF-IDF + cosine similarity** to recommend best-fit courses (Coursera, Udemy, etc.).
 
-Chatbot Assistant → Interactive Q&A for career guidance
+* 🗺️ **Roadmap Generation**
+  Provides structured short-term and long-term learning paths.
 
-Profile-Based Guidance → Recommendations tailored to each user
+* 🤖 **Chatbot Assistant**
+  Interactive chatbot for career-related queries and guidance.
 
-🏗️ System Architecture
+* 👤 **Profile-Based Guidance**
+  Personalized recommendations tailored to individual users.
 
-User Input → Flask Backend (APIs) → Course Dataset + ML Model → JSON Response → Frontend (HTML/CSS/JS UI)
+---
 
-Frontend → HTML, CSS, JS
+## 🏗️ System Architecture
 
-Backend → Flask (Python) + Scikit-learn (TF-IDF, cosine similarity)
+```
+User Input 
+   ↓
+Frontend (HTML/CSS/JS)
+   ↓
+Flask Backend (API)
+   ↓
+ML Model + Dataset
+   ↓
+JSON Response
+   ↓
+Frontend Display
+```
 
-Dataset → courses.csv (curated with Coursera/Udemy links)
+---
 
-APIs → /recommend, /career-predict, Gemini API (planned integration)
+## 🛠️ Tech Stack
 
-📊 Dataset
+### 💻 Frontend
 
-ONET Dataset → Career roles & required skills
+* HTML
+* CSS
+* JavaScript
 
-Courses Dataset (courses.csv) → Curated courses with tags (skills, platforms, links)
+### ⚙️ Backend
 
-Gemini API → AI insights for skills & roles (future scope)
+* Flask (Python)
+* Scikit-learn (TF-IDF, Cosine Similarity)
 
-⚙️ Installation & Usage
-1. Clone Repository
-git clone https://github.com/your-username/careerpilot.git
-cd careerpilot
+### 📊 Dataset
 
-2. Backend Setup (Flask)
+* ONET Dataset (Career roles & skills)
+* courses.csv (Curated course dataset)
+
+### 🔌 APIs
+
+* `/recommend` → Course suggestions
+* `/career-predict` → Career prediction
+* Gemini API (Planned)
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/Abhishek-Saini2211677/Smart-Roadmap-Recommender-System.git
+cd Smart-Roadmap-Recommender-System
+```
+
+
+---
+
+### 2️⃣ Backend Setup (Flask)
+
+```bash
 pip install -r requirements.txt
 python main.py
+```
 
+📍 Backend runs at:
+http://127.0.0.1:5000/
 
-Backend runs at → http://127.0.0.1:5000/
+---
 
-3. Frontend Setup
+### 3️⃣ Frontend Setup
 
-Open home.html in browser
+* Open `home.html` in your browser
+* Frontend connects to backend APIs
 
-Frontend JS calls backend APIs (/recommend, /career-predict)
+---
 
-🌍 Deployment
+## 🌍 Deployment
 
-Frontend → Host on GitHub Pages / Netlify / Vercel
+### Frontend
 
-Backend → Deploy Flask app on Render / Railway / PythonAnywhere
+* GitHub Pages
+* Netlify
+* Vercel
 
-Update frontend JS API calls with deployed backend URL
+### Backend
 
-📌 Future Scope
+* Render
+* Railway
+* PythonAnywhere
 
-Integration with LinkedIn / Job portals
+⚠️ Update API URLs in frontend after deployment.
 
-AI Resume Analyzer
+---
 
-Mobile App Version
+## 📈 Future Enhancements
 
-Multilingual Support (Hindi, English, etc.)
+* 🔗 LinkedIn / Job Portal Integration
+* 📄 AI Resume Analyzer
+* 📱 Mobile Application
+* 🌐 Multilingual Support (Hindi, English, etc.)
 
-👨‍💻 Team Members
+---
 
-Abhishek Saini
-Anubhav Gupta
-Anugam Kushwaha
-Anuj Singh
+## 👨‍💻 Team Members
 
+* Abhishek Saini
+* Anubhav Gupta
+* Anugam Kushwaha
+* Anuj Singh
 
-📜 License
+---
 
-This project is licensed under the MIT License.
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+## ⭐ Contribution
+
+Feel free to fork this repository, raise issues, and submit pull requests to improve the project!
+
+---
