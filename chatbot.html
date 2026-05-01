@@ -4,16 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Career Pilot - AI Chatbot</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #3c6696, #10295f);
+      background: radial-gradient(circle at top, #1b2b5a, #0f1e3f);
       color: #fff;
     }
 
@@ -21,71 +19,24 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 100%;
-      box-sizing: border-box;
       background-color: rgba(15, 30, 63, 0.95);
       padding: 18px 50px;
-      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
     }
 
-    nav .brand a {
+    nav a {
+      color: #fff;
       text-decoration: none;
-      color: inherit;
-      display: flex;
-      align-items: center;
       font-size: 1.8rem;
       font-weight: 700;
-      font-family: 'Playfair Display', serif;
     }
 
-    nav .brand i {
-      color: #997953;
-      margin-right: 10px;
-      font-size: 1.6rem;
-    }
-
-    nav .center-links {
-      flex-grow: 1;
+    .center-links {
       display: flex;
-      justify-content: center;
       gap: 35px;
       list-style: none;
-      margin: 0;
-      padding: 0;
     }
 
-    nav .center-links li {
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.3s;
-      color: #fff;
-    }
-
-    nav .center-links li i { color: #CDAA80; }
-
-    nav .center-links li.active {
-      color: #CDAA80;
-      font-weight: 700;
-      font-size: 1.1rem;
-      border-bottom: 3px solid #CDAA80;
-      padding-bottom: 5px;
-    }
-
-    nav .center-links li:hover { color: #CDAA80; }
-
-    nav .user-icon {
-      width: 40px;
-      height: 40px;
-      background-color: #997953;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.5rem;
+    .center-links li {
       cursor: pointer;
     }
 
@@ -95,92 +46,105 @@
       background-color: #213a56;
       border-radius: 15px;
       padding: 20px;
+      height: 70vh;
       display: flex;
       flex-direction: column;
-      height: 70vh;
     }
 
     .chat-window {
       flex: 1;
       overflow-y: auto;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 10px;
       background-color: #0f1e3f;
-    }
-
-    .chat-message {
-      margin: 10px 0;
+      padding: 10px;
+      border-radius: 10px;
       display: flex;
-      align-items: flex-start;
-      gap: 10px;
+      flex-direction: column;
     }
 
-    .chat-message.user { justify-content: flex-end; }
-
-    .chat-message p {
+    .message {
       padding: 10px 15px;
-      border-radius: 20px;
+      margin: 8px 0;
+      border-radius: 15px;
       max-width: 70%;
-      margin: 0;
+      white-space: pre-line;
     }
 
-    .chat-message.user p {
-      background-color: #CDAA80;
-      color: #0f1e3f;
+    .user {
+      background: #CDAA80;
+      color: black;
+      align-self: flex-end;
     }
 
-    .chat-message.bot p {
-      background-color: #997953;
-      color: #0f1e3f;
+    .bot {
+      background: rgba(255,255,255,0.1);
+      align-self: flex-start;
+    }
+
+    .typing span {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: blink 1.4s infinite;
+    }
+
+    .typing span:nth-child(2){ animation-delay:0.2s;}
+    .typing span:nth-child(3){ animation-delay:0.4s;}
+
+    @keyframes blink {
+      0%,80%,100%{opacity:0.2;}
+      40%{opacity:1;}
     }
 
     .input-area {
       display: flex;
       gap: 10px;
+      margin-top: 10px;
     }
 
     .input-area input {
       flex: 1;
-      padding: 12px 15px;
+      padding: 10px;
       border-radius: 25px;
       border: none;
-      font-size: 1rem;
     }
 
     .input-area button {
-      padding: 12px 25px;
-      background-color: #CDAA80;
-      border: none;
+      padding: 10px 20px;
       border-radius: 25px;
-      color: #0F1E3F;
-      font-weight: 600;
+      border: none;
+      background: #CDAA80;
       cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .input-area button:hover {
-      background-color: #997953;
-      color: #fff;
     }
   </style>
 </head>
+
 <body>
 
+<script>
+const user = localStorage.getItem("careerpilotUser");
+if (!user) {
+  window.location.replace("signinlogin.html#login");
+}
+</script>
+
+<!-- ✅ NAVBAR UPDATED -->
 <nav>
-  <div class="brand">
-    <a href="about.html"><i class="fas fa-compass"></i> Career Pilot</a>
-  </div>
+  <a href="home.html">Career Pilot</a>
+
   <ul class="center-links">
-    <li class="active"><i class="fas fa-robot"></i> AI Chatbot</li>
-    <li onclick="window.location.href='roadmap.html'"><i class="fas fa-project-diagram"></i> Roadmaps</li>
-    <li onclick="window.location.href='pagecourse.html'"><i class="fas fa-book-open"></i> Courses</li>
+    <li onclick="goIfLoggedIn('dashboard.html')">Dashboard</li>
+    <!-- ❌ AI Chatbot removed -->
+    <li onclick="goIfLoggedIn('roadmap.html')">Roadmaps</li>
+    <li onclick="goIfLoggedIn('pagecourse.html')">Courses</li>
   </ul>
-  <div class="user-icon"><i class="fas fa-user-circle"></i></div>
 </nav>
 
 <div class="chat-container">
   <div class="chat-window" id="chatWindow"></div>
+
   <div class="input-area">
     <input type="text" id="userInput" placeholder="Ask me about your career or skills..." />
     <button id="sendBtn">Send</button>
@@ -188,60 +152,149 @@
 </div>
 
 <script>
+function goIfLoggedIn(page) {
+  const user = localStorage.getItem("careerpilotUser");
+  if (user) window.location.href = page;
+  else window.location.href = "signinlogin.html#login";
+}
+
 const sendBtn = document.getElementById('sendBtn');
 const userInput = document.getElementById('userInput');
 const chatWindow = document.getElementById('chatWindow');
 
-function appendMessage(message, sender) {
-  const msgDiv = document.createElement('div');
-  msgDiv.classList.add('chat-message', sender);
-  const p = document.createElement('p');
-  p.textContent = message;
-  msgDiv.appendChild(p);
-  chatWindow.appendChild(msgDiv);
-  chatWindow.scrollTop = chatWindow.scrollHeight;
+const currentUser = JSON.parse(localStorage.getItem("careerpilotUser"));
+const chatKey = "chatHistory_" + (currentUser?.email || "guest");
+const chatCountKey = "chatCount_" + (currentUser?.email || "guest");
+
+let history = JSON.parse(localStorage.getItem(chatKey)) || [];
+let chatCount = parseInt(localStorage.getItem(chatCountKey)) || 0;
+
+function saveHistory() {
+  localStorage.setItem(chatKey, JSON.stringify(history));
 }
 
-// ✅ Async bot response from Gemini API
-async function botResponse(userMsg) {
-  try {
-    const response = await fetch('http://127.0.0.1:5000/career-predict', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ user_input: userMsg })
-    });
+function loadHistory() {
+  history.forEach(m => appendMessage(m.text, m.type, false));
+}
 
-    const data = await response.json();
-    return `A few roles you can look forward to are: ${data.prediction}`; // ✅ corrected key
-  } catch (error) {
-    console.error('Error fetching career prediction:', error);
-    return "Sorry, I couldn't predict your role right now. Try again!";
+function appendMessage(text, type, save=true) {
+  const div = document.createElement('div');
+  div.className = "message " + type;
+  div.textContent = text;
+  chatWindow.appendChild(div);
+
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+
+  if (save) {
+    history.push({ text, type });
+    saveHistory();
   }
 }
 
+function showTyping() {
+  const div = document.createElement('div');
+  div.className = "message bot typing";
+  div.id = "typing";
+  div.innerHTML = `<span></span><span></span><span></span>`;
+  chatWindow.appendChild(div);
+}
 
-// Send button click handler
-sendBtn.addEventListener('click', async () => {
+function removeTyping() {
+  const t = document.getElementById("typing");
+  if (t) t.remove();
+}
+
+function typeMessage(text) {
+  return new Promise(resolve => {
+    const div = document.createElement('div');
+    div.className = "message bot";
+    chatWindow.appendChild(div);
+
+    let i = 0;
+    function typing() {
+      if (i < text.length) {
+        div.textContent += text[i++];
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+        setTimeout(typing, 15);
+      } else {
+        history.push({ text, type: "bot" });
+        saveHistory();
+        resolve();
+      }
+    }
+    typing();
+  });
+}
+
+async function botResponse(msg) {
+  try {
+    const res1 = await fetch('http://127.0.0.1:5000/career-predict', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_input: msg })
+    });
+
+    const data1 = await res1.json();
+    const roles = data1.prediction;
+
+    const res2 = await fetch(`http://127.0.0.1:5000/recommend?query=${encodeURIComponent(roles)}`);
+    const data2 = await res2.json();
+
+    let coursesText = "";
+
+    if (data2.recommendations?.length) {
+      coursesText = "\n\n📚 Courses:\n";
+      data2.recommendations.slice(0,3).forEach(c=>{
+        coursesText += "• " + c["Title of Course"] + "\n";
+      });
+    }
+
+    return `🎯 Suggested Roles:\n${roles}${coursesText}`;
+
+  } catch {
+    return "Error connecting to server.";
+  }
+}
+
+async function sendMessage() {
   const msg = userInput.value.trim();
   if (!msg) return;
 
-  appendMessage(msg, 'user');
-  const reply = await botResponse(msg); // ✅ Await the async response
-  appendMessage(reply, 'bot');
+  appendMessage(msg, "user");
+  userInput.value = "";
 
-  userInput.value = '';
+  chatCount++;
+  localStorage.setItem(chatCountKey, chatCount);
+
+  showTyping();
+  const reply = await botResponse(msg);
+  removeTyping();
+
+  await typeMessage(reply);
+}
+
+sendBtn.addEventListener('click', sendMessage);
+
+userInput.addEventListener("keypress", e => {
+  if (e.key === "Enter") sendMessage();
 });
 
-// Press Enter to send
-userInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') sendBtn.click();
-});
-
-// Initial bot message on page load
 window.addEventListener('load', () => {
-  appendMessage("I'm here to help you with career guidance! Tell me about your Skills, Interests or Role.", 'bot');
+  loadHistory();
+
+  if (history.length === 0) {
+    appendMessage("Hello! Tell me your skills or interests.", "bot");
+  }
+});
+
+window.addEventListener("load", () => {
+  const params = new URLSearchParams(window.location.search);
+  const query = params.get("query");
+
+  if (query) {
+    userInput.value = "Give me roadmap, skills and courses for " + query;
+    setTimeout(sendMessage, 300);
+  }
 });
 </script>
 

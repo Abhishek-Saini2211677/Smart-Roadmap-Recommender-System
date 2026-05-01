@@ -1,248 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Career Pilot - Roadmaps</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome for Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #143a8c, #4f8dd4);
-      color: #fff;
-      min-height: 100vh;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career Pilot - Roadmaps</title>
 
-    /* Navbar */
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: rgba(15, 30, 63, 0.95);
-      padding: 18px 50px;
-      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    nav .brand {
-      font-size: 1.8rem;
-      font-weight: 700;
-      font-family: 'Playfair Display', serif;
-      display: flex;
-      align-items: center;
-      color: #fff;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #1b2b5a, #0f1e3f);
+  color: #fff;
+}
 
-    nav .brand i {
-      color: #997953;
-      margin-right: 10px;
-      font-size: 1.6rem;
-    }
+/* Glow effect */
+body::before {
+  content: "";
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: #CDAA80;
+  filter: blur(140px);
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.25;
+  z-index: 0;
+}
 
-    nav .center-links {
-      flex-grow: 1;
-      display: flex;
-      justify-content: center;
-      gap: 35px;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
+/* Navbar */
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 50px;
+  background: rgba(0,0,0,0.3);
+  position: relative;
+  z-index: 1;
+}
 
-    nav .center-links li {
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.3s;
-      color: #fff;
-    }
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
 
-    nav .center-links li i {
-      color: #CDAA80;
-    }
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
 
-    nav .center-links li.active {
-      color: #CDAA80;
-      font-weight: 700;
-      font-size: 1.1rem;
-      border-bottom: 3px solid #CDAA80;
-      padding-bottom: 5px;
-    }
+.nav-links span {
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-    nav .center-links li:hover {
-      color: #CDAA80;
-    }
+.nav-links span:hover {
+  color: #CDAA80;
+  transform: translateY(-2px);
+}
 
-    nav .user-icon button {
-      background-color: #997953;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      color: #fff;
-      font-size: 1.5rem;
-    }
+/* Container */
+.container {
+  padding: 40px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
 
-    /* Roadmaps Section */
-    .roadmap-container {
-      padding: 50px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 1200px;
-      margin: auto;
-    }
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
 
-    .roadmap-title {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 2rem;
-      text-align: center;
-      color: #e9e0d6;
-    }
+/* Cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  gap: 20px;
+}
 
-    .roadmap-cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
-      width: 100%;
-    }
+/* 🔥 GLASS CARD */
+.card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 
-    .roadmap-card {
-      background-color: #213a56; /* mid blue */
-      padding: 1.5rem;
-      border-radius: 1rem;
-      width: 20rem;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 15px;
 
-    .roadmap-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.5);
-    }
+  padding: 20px;
+  text-align: left;
 
-    .roadmap-card-title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      text-align: center;
-      color: #e4ddd5;
-    }
+  transition: all 0.35s ease;
+}
 
-    .roadmap-steps {
-      list-style-type: none;
-      padding-left: 0;
-    }
+/* 🔥 HOVER EFFECT */
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
 
-    .roadmap-step {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-      padding: 0.5rem;
-      background-color: #997953; /* gold dark */
-      border-radius: 0.5rem;
-      color: #0f1e3f;
-      font-weight: 500;
-      transition: transform 0.2s ease, background 0.2s ease;
-      cursor: default;
-    }
+  box-shadow: 
+    0 10px 30px rgba(0,0,0,0.4),
+    0 0 20px rgba(205,170,128,0.3);
 
-    .roadmap-step:hover {
-      transform: translateX(5px);
-      background-color: #e3be90;
-      color: #0f1e3f;
-    }
+  border: 1px solid rgba(205,170,128,0.6);
+}
 
-    .step-icon {
-      color: #0f1e3f;
-    }
+/* Tags */
+.duration, .level {
+  background: #CDAA80;
+  color: #0F1E3F;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  display: inline-block;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
 
-    @media(max-width: 768px) {
-      .roadmap-cards {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-  </style>
+/* Progress */
+.progress {
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 8px;
+  margin-bottom: 15px;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #CDAA80;
+  width: 0%;
+}
+
+/* Steps */
+.steps {
+  list-style: none;
+  padding: 0;
+}
+
+.steps li {
+  margin: 8px 0;
+  padding: 8px;
+  background: #997953;
+  border-radius: 8px;
+  color: #0F1E3F;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.steps li:hover {
+  transform: scale(1.05);
+}
+
+/* Buttons */
+.btn-group {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(205,170,128,0.6);
+}
+
+.chat-btn {
+  background: #CDAA80;
+  color: #0F1E3F;
+}
+
+.course-btn {
+  background: #fff;
+  color: #213A56;
+}
+
+.reset-btn {
+  background: #ff6b6b;
+  color: #fff;
+}
+</style>
 </head>
+
 <body>
 
-  <!-- Navbar -->
-  <nav>
-    <div class="brand">
-        <a href="about.html" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
-      <i class="fas fa-compass"></i> Career Pilot
-        </a>
-    </div>
-    <ul class="center-links">
-      <li onclick="window.location.href='chatbot.html'"><i class="fas fa-robot"></i> AI Chatbot</li>
-      <li class="active"><i class="fas fa-project-diagram"></i> Roadmaps</li>
-      <li onclick="window.location.href='pagecourse.html'"><i class="fas fa-book-open"></i> Courses</li>
-    </ul>
-    <div class="user-icon">
-      <button><i class="fas fa-user-circle"></i></button>
-    </div>
-  </nav>
+<script>
+const user = localStorage.getItem("careerpilotUser");
+if (!user) {
+  window.location.replace("signinlogin.html#login");
+}
+</script>
 
-  <!-- Roadmaps Section -->
-  <div class="roadmap-container" id="roadmapContainer">
-    <h1 class="roadmap-title">Popular Career Roadmaps</h1>
-    <div class="roadmap-cards" id="roadmapCards">
-      <!-- JS will inject cards here -->
-    </div>
+<nav>
+  <a href="home.html"><i class="fas fa-compass"></i> Career Pilot</a>
+
+  <div class="nav-links">
+    <span onclick="go('dashboard.html')">Dashboard</span> <!-- ✅ ADDED -->
+    <span onclick="go('chatbot.html')">Chatbot</span>
+    <span onclick="go('pagecourse.html')">Courses</span>
   </div>
+</nav>
 
-  <script>
-    const roadmapsData = [
-      {
-        title: "Web Development",
-        steps: ["HTML & CSS Basics", "JavaScript Fundamentals", "React.js", "Backend with Node.js", "Deploy Projects"]
-      },
-      {
-        title: "Data Science",
-        steps: ["Python Basics", "Data Analysis with Pandas", "Data Visualization", "Machine Learning", "Portfolio Projects"]
-      },
-      {
-        title: "AI/ML Engineer",
-        steps: ["Python & Numpy", "Machine Learning", "Deep Learning", "NLP & Transformers", "Real-World Projects"]
-      }
-    ];
+<div class="container">
+  <h1 class="title">🚀 Career Roadmaps</h1>
+  <div class="cards" id="roadmapContainer"></div>
+</div>
 
-    const container = document.getElementById("roadmapCards");
+<script>
+function go(page) {
+  window.location.href = page;
+}
 
-    roadmapsData.forEach(roadmap => {
-      const card = document.createElement("div");
-      card.className = "roadmap-card";
+function goToCourses(role) {
+  window.location.href = "pagecourse.html?query=" + encodeURIComponent(role);
+}
 
-      const title = document.createElement("h2");
-      title.className = "roadmap-card-title";
-      title.textContent = roadmap.title;
-      card.appendChild(title);
+function goToChatbot(role) {
+  window.location.href = "chatbot.html?query=" + encodeURIComponent(role);
+}
 
-      const ul = document.createElement("ul");
-      ul.className = "roadmap-steps";
+const data = [
+  {
+    title: "Web Development",
+    duration: "3 - 6 Months",
+    level: "Beginner",
+    progress: 20,
+    steps: ["HTML", "CSS", "JavaScript", "React", "Node.js"]
+  },
+  {
+    title: "Data Science",
+    duration: "4 - 8 Months",
+    level: "Intermediate",
+    progress: 40,
+    steps: ["Python", "Pandas", "Visualization", "Machine Learning"]
+  },
+  {
+    title: "AI/ML Engineer",
+    duration: "6 - 12 Months",
+    level: "Advanced",
+    progress: 10,
+    steps: ["Python", "ML", "Deep Learning", "NLP"]
+  }
+];
 
-      roadmap.steps.forEach(step => {
-        const li = document.createElement("li");
-        li.className = "roadmap-step";
-        li.innerHTML = `<i class="fas fa-check-circle step-icon"></i> ${step}`;
-        ul.appendChild(li);
-      });
+const container = document.getElementById("roadmapContainer");
 
-      card.appendChild(ul);
-      container.appendChild(card);
-    });
-  </script>
+/* LOAD SAVED */
+let saved = JSON.parse(localStorage.getItem("roadmapProgress")) || {};
+
+data.forEach((r, index) => {
+  let value = saved[index] ?? r.progress;
+
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+    <h2>${r.title}</h2>
+
+    <div class="duration">⏳ ${r.duration}</div>
+    <div class="level">🎯 ${r.level}</div>
+
+    <div class="progress">
+      <div class="progress-bar" id="bar-${index}" style="width:${value}%"></div>
+    </div>
+
+    <ul class="steps">
+      ${r.steps.map(s => `
+        <li onclick="increaseProgress(${index})"
+            oncontextmenu="decreaseProgress(event, ${index})">
+          <i class="fas fa-check-circle"></i> ${s}
+        </li>
+      `).join("")}
+    </ul>
+
+    <div class="btn-group">
+      <button class="btn chat-btn" onclick="goToChatbot('${r.title}')">🤖 Chatbot</button>
+      <button class="btn course-btn" onclick="goToCourses('${r.title}')">📚 Courses</button>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn reset-btn" onclick="resetProgress(${index})">🔄 Reset</button>
+    </div>
+  `;
+
+  container.appendChild(card);
+});
+
+/* SAVE + DASHBOARD */
+function saveProgress(index, value) {
+  let p = JSON.parse(localStorage.getItem("roadmapProgress")) || {};
+  p[index] = value;
+  localStorage.setItem("roadmapProgress", JSON.stringify(p));
+
+  let values = Object.values(p);
+  let avg = values.length ? Math.floor(values.reduce((a,b)=>a+b,0)/values.length) : 0;
+
+  localStorage.setItem("dashboardData", JSON.stringify({ progress: avg }));
+}
+
+/* FUNCTIONS */
+function increaseProgress(index) {
+  const bar = document.getElementById(`bar-${index}`);
+  let current = parseInt(bar.style.width);
+
+  if (current < 100) {
+    current += 10;
+    bar.style.width = current + "%";
+    saveProgress(index, current);
+  }
+}
+
+function decreaseProgress(e, index) {
+  e.preventDefault();
+  const bar = document.getElementById(`bar-${index}`);
+  let current = parseInt(bar.style.width);
+
+  if (current > 0) {
+    current -= 10;
+    bar.style.width = current + "%";
+    saveProgress(index, current);
+  }
+}
+
+function resetProgress(index) {
+  document.getElementById(`bar-${index}`).style.width = "0%";
+  saveProgress(index, 0);
+}
+</script>
 
 </body>
 </html>

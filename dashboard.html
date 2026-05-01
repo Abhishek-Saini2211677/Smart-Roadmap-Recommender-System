@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career Pilot - Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #1b2b5a, #0f1e3f);
+  color: white;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 40px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+}
+
+.brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+.nav-links span {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.nav-links span:hover {
+  color: #CDAA80;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.container {
+  padding: 30px 40px;
+}
+
+.welcome h2 span {
+  color: #CDAA80;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  background: rgba(255,255,255,0.06);
+  border-radius: 15px;
+  padding: 20px;
+  backdrop-filter: blur(8px);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+.stat {
+  font-size: 2rem;
+  color: #CDAA80;
+}
+
+.btn {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  background: #CDAA80;
+  color: #0F1E3F;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+const user = localStorage.getItem("careerpilotUser");
+if (!user) {
+  window.location.replace("signinlogin.html#login");
+}
+</script>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="brand" onclick="go('home.html')">
+    <i class="fas fa-compass"></i> Career Pilot
+  </div>
+
+  <div class="nav-links">
+    <!-- ❌ Dashboard removed -->
+    <span onclick="go('chatbot.html')">Chatbot</span>
+    <span onclick="go('roadmap.html')">Roadmaps</span>
+    <span onclick="go('pagecourse.html')">Courses</span>
+  </div>
+
+  <div class="user" id="userArea"></div>
+</nav>
+
+<!-- CONTENT -->
+<div class="container">
+
+  <div class="welcome">
+    <h2>Welcome, <span id="username"></span> 👋</h2>
+    <p>Track your progress and continue learning</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="grid">
+    <div class="card">
+      <h3>📊 Progress</h3>
+      <div class="stat" id="progressStat">0%</div>
+    </div>
+
+    <div class="card">
+      <h3>📚 Courses Viewed</h3>
+      <div class="stat" id="courseStat">0</div>
+    </div>
+
+    <div class="card">
+      <h3>🤖 Chat Sessions</h3>
+      <div class="stat" id="chatStat">0</div>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <h2 style="margin-top:40px;">⚡ Quick Actions</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>AI Chatbot</h3>
+      <button class="btn" onclick="go('chatbot.html')">Open</button>
+    </div>
+
+    <div class="card">
+      <h3>Roadmaps</h3>
+      <button class="btn" onclick="go('roadmap.html')">View</button>
+    </div>
+
+    <div class="card">
+      <h3>Courses</h3>
+      <button class="btn" onclick="go('pagecourse.html')">Explore</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// USER
+const userData = JSON.parse(localStorage.getItem("careerpilotUser"));
+document.getElementById("username").innerText = userData.name;
+
+// USER NAV
+document.getElementById("userArea").innerHTML = `
+  Hi, ${userData.name}
+`;
+
+// NAVIGATION
+function go(page) {
+  window.location.href = page;
+}
+
+/* 🔥 ROADMAP PROGRESS */
+function loadDashboardProgress() {
+  const progressData = JSON.parse(localStorage.getItem("roadmapProgress")) || {};
+  const values = Object.values(progressData);
+
+  let avg = 0;
+  if (values.length > 0) {
+    avg = Math.floor(values.reduce((a, b) => a + b, 0) / values.length);
+  }
+
+  document.getElementById("progressStat").innerText = avg + "%";
+}
+
+/* 🔥 CHAT SESSION */
+function loadChatSessions() {
+  const user = JSON.parse(localStorage.getItem("careerpilotUser"));
+  const key = "chatCount_" + (user?.email || "guest");
+
+  const count = parseInt(localStorage.getItem(key)) || 0;
+
+  document.getElementById("chatStat").innerText = count;
+}
+
+/* 🔥 COURSE VIEWS */
+function loadCourseViews() {
+  const user = JSON.parse(localStorage.getItem("careerpilotUser"));
+  const key = "courseCount_" + (user?.email || "guest");
+
+  const count = parseInt(localStorage.getItem(key)) || 0;
+
+  document.getElementById("courseStat").innerText = count;
+}
+
+/* RUN */
+loadDashboardProgress();
+loadChatSessions();
+loadCourseViews();
+</script>
+
+</body>
+</html>

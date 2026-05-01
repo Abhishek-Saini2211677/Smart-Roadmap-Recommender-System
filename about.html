@@ -1,174 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us - Career Pilot</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome for Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About - Career Pilot</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(13deg, #edaa80,  #213a56,#edaa80);
-      color: #fff;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    /* Navbar */
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: rgba(15, 30, 63, 0.95);
-      padding: 18px 50px;
-      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
-    }
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #1b2b5a, #0f1e3f);
+  color: #fff;
+}
 
-    nav .brand {
-      font-size: 1.8rem;
-      font-weight: 700;
-      font-family: 'Playfair Display', serif;
-      display: flex;
-      align-items: center;
-      color: #fff;
-    }
+/* Glow */
+body::before {
+  content: "";
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: #CDAA80;
+  filter: blur(140px);
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.25;
+  z-index: 0;
+}
 
-    nav .brand i {
-      color: #997953;
-      margin-right: 10px;
-      font-size: 1.6rem;
-    }
+/* Navbar */
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 50px;
+  background: rgba(0,0,0,0.4);
+  position: relative;
+  z-index: 1;
+}
 
-    nav .center-links {
-      flex-grow: 1;
-      display: flex;
-      justify-content: center;
-      gap: 35px;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
 
-    nav .center-links li {
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.3s;
-    }
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
 
-    nav .center-links li i {
-      color: #edaa80;
-    }
+.nav-links span {
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-    nav .center-links li:hover {
-      color: #edaa80;
-    }
+.nav-links span:hover {
+  color: #CDAA80;
+  transform: translateY(-2px);
+}
 
-    nav .auth-buttons {
-      display: flex;
-      gap: 12px;
-    }
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  position: relative;
+  z-index: 1;
+}
 
-    nav .auth-buttons button {
-      background-color: #997953;
-      border: none;
-      padding: 10px;
-      border-radius: 50%;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      color: #fff;
-      transition: all 0.3s ease;
-    }
+.hero h1 {
+  font-size: 2.8rem;
+}
 
-    nav .auth-buttons button:hover {
-      background-color: #edaa80;
-      color: #0f1e3f;
-      transform: scale(1.1);
-    }
+.hero span {
+  color: #CDAA80;
+}
 
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      padding: 100px 20px;
-    }
+.hero p {
+  max-width: 700px;
+  margin: 20px auto;
+  line-height: 1.6;
+}
 
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      margin: 10px 0;
-      color: #fff;
-    }
+/* Sections */
+.section {
+  padding: 50px 20px;
+  max-width: 1100px;
+  margin: auto;
+  position: relative;
+  z-index: 1;
+}
 
-    .hero h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      margin: 10px 0;
-      color: #edaa80; /* golden beige color */
-      font-weight: 600;
-    }
+.section h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
 
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 750px;
-      margin: 25px auto 40px;
-      line-height: 1.8;
-      color: #f1f1f1;
-      font-weight: 400;
-    }
+/* 🔥 GLASS CARDS */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 20px;
+}
 
-    .hero button {
-      background-color: #997953;
-      border: none;
-      padding: 15px 35px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #fff;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0px 6px 12px rgba(0,0,0,0.25);
-    }
+.card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 
-    .hero button:hover {
-      background-color: #edaa80;
-      color: #0f1e3f;
-      transform: translateY(-3px);
-      box-shadow: 0px 8px 16px rgba(0,0,0,0.35);
-    }
-  </style>
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+
+  padding: 20px;
+  text-align: center;
+
+  transition: all 0.35s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 
+    0 10px 30px rgba(0,0,0,0.4),
+    0 0 20px rgba(205,170,128,0.3);
+
+  border: 1px solid rgba(205,170,128,0.6);
+}
+
+.card i {
+  font-size: 30px;
+  margin-bottom: 10px;
+  color: #CDAA80;
+}
+
+/* 🔥 GLASS STEPS */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 20px;
+}
+
+.step {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+
+  padding: 20px;
+  text-align: center;
+
+  transition: 0.3s;
+}
+
+.step:hover {
+  transform: scale(1.05);
+}
+
+/* Buttons */
+.btn-group {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.btn {
+  padding: 12px 25px;
+  border-radius: 25px;
+  border: none;
+  margin: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(205,170,128,0.6);
+}
+
+.primary {
+  background: #CDAA80;
+  color: #0F1E3F;
+}
+
+.secondary {
+  background: #fff;
+  color: #213A56;
+}
+</style>
 </head>
-<body>
-  <!-- Navbar -->
-  <nav>
-    <div class="brand">
-      <i class="fas fa-compass"></i> Career Pilot
-    </div>
-    <ul class="center-links">
-      <li onclick="window.location.href='chatbot.html'"><i class="fas fa-robot"></i> AI Chatbot</li>
-      <li class="active" onclick="window.location.href='roadmap.html'"><i class="fas fa-project-diagram"></i> Roadmaps</li>
-      <li class="active" onclick="window.location.href='pagecourse.html'"><i class="fas fa-book-open"></i> Courses</li>
-    </ul>
-    <div class="auth-buttons">
-      <button><i class="fas fa-user-circle"></i></button>
-    </div>
-  </nav>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <h1>Career Pilot</h1>
-    <h2>AI-Powered Career Advisor</h2>
-    <p>
-      Career Pilot helps students discover their strengths, choose the right skills, 
-      and get personalized guidance to build a successful career path.
-    </p>
-    <button class="start-btn" onclick="window.location.href='chatbot.html'">Try AI Chat</button>
-  </section>
+<body>
+
+<script>
+const user = localStorage.getItem("careerpilotUser");
+if (!user) {
+  window.location.replace("signinlogin.html#login");
+}
+</script>
+
+<nav>
+  <a href="home.html"><i class="fas fa-compass"></i> Career Pilot</a>
+
+  <div class="nav-links">
+    <span onclick="go('chatbot.html')">Chatbot</span>
+    <span onclick="go('roadmap.html')">Roadmaps</span>
+    <span onclick="go('pagecourse.html')">Courses</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>About <span>Career Pilot</span></h1>
+  <p>
+    Career Pilot is an AI-powered platform that helps students discover the right career path,
+    build skills, and get personalized guidance using intelligent recommendations.
+  </p>
+</div>
+
+<div class="section">
+  <h2>✨ What We Offer</h2>
+
+  <div class="cards">
+    <div class="card">
+      <i class="fas fa-robot"></i>
+      <h3>AI Chatbot</h3>
+      <p>Get career suggestions based on your skills and interests.</p>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-road"></i>
+      <h3>Roadmaps</h3>
+      <p>Structured step-by-step learning paths for different careers.</p>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-book"></i>
+      <h3>Courses</h3>
+      <p>Recommended courses to help you grow faster.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>⚙️ How It Works</h2>
+
+  <div class="steps">
+    <div class="step">
+      <h3>1. Enter Skills</h3>
+      <p>Tell us your interests or skills.</p>
+    </div>
+
+    <div class="step">
+      <h3>2. AI Suggestion</h3>
+      <p>We recommend best career roles for you.</p>
+    </div>
+
+    <div class="step">
+      <h3>3. Learn & Grow</h3>
+      <p>Follow roadmap and take courses.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>💻 Tech Stack</h2>
+
+  <div class="cards">
+    <div class="card">HTML / CSS / JavaScript</div>
+    <div class="card">Python (Flask API)</div>
+    <div class="card">Machine Learning Model</div>
+  </div>
+</div>
+
+<div class="btn-group">
+  <button class="btn primary" onclick="go('chatbot.html')">Start with Chatbot</button>
+  <button class="btn secondary" onclick="go('roadmap.html')">Explore Roadmaps</button>
+</div>
+
+<script>
+function go(page) {
+  window.location.href = page;
+}
+</script>
+
 </body>
 </html>

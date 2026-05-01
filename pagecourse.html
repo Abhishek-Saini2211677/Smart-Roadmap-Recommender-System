@@ -1,280 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Career Pilot - Courses</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome for Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career Pilot - Courses</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0F1E3F, #213A56);
-      color: #fff;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-    /* Navbar */
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: rgba(15, 30, 63, 0.95);
-      padding: 18px 50px;
-      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
-    }
-
-    nav .brand {
-      font-size: 1.8rem;
-      font-weight: 700;
-      font-family: 'Playfair Display', serif;
-      display: flex;
-      align-items: center;
-      color: #fff;
-    }
-
-    nav .brand i {
-      color: #997953;
-      margin-right: 10px;
-      font-size: 1.6rem;
-    }
-
-    nav .center-links {
-      flex-grow: 1;
-      display: flex;
-      justify-content: center;
-      gap: 35px;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    nav .center-links li {
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.3s;
-      color: #fff;
-    }
-
-    nav .center-links li i {
-      color: #CDAA80;
-    }
-
-    nav .center-links li.active {
-      color: #CDAA80;
-      font-weight: 700;
-      font-size: 1.1rem;     /* slightly bigger */
-      border-bottom: 3px solid #CDAA80;  /* underline */
-      padding-bottom: 5px;   /* space between text and underline */
-    }
-
-    nav .center-links li:hover {
-      color: #CDAA80;
-    }
-
-    nav .auth-buttons button {
-  width: 40px;
-  height: 40px;
-  background-color: #997953;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #1b2b5a, #0f1e3f);
   color: #fff;
-  font-size: 1.5rem;
+}
+
+/* Glow */
+body::before {
+  content: "";
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: #CDAA80;
+  filter: blur(140px);
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.25;
+  z-index: 0;
+}
+
+/* Navbar */
+nav {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
+  justify-content: space-between;
+  padding: 18px 50px;
+  background: rgba(0,0,0,0.4);
+  position: relative;
+  z-index: 1;
 }
 
-nav .auth-buttons button:hover {
-  background-color: #CDAA80;
-  color: #0F1E3F;
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
+.center-links {
+  display: flex;
+  gap: 25px;
+}
 
-    /* Main Content */
-    .content {
-      padding: 50px;
-      max-width: 1200px;
-      margin: auto;
-    }
+.center-links span {
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-    .content h2 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      color: #CDAA80;
-    }
+.center-links span:hover {
+  color: #CDAA80;
+  transform: translateY(-2px);
+}
 
-    .content p {
-      font-size: 1.1rem;
-      margin-bottom: 30px;
-      color: #f1f1f1;
-    }
+/* Content */
+.content {
+  padding: 40px;
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
+  z-index: 1;
+}
 
-    /* Search Bar */
-    .search-container {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 40px;
-    }
+h2 {
+  margin-bottom: 20px;
+}
 
-    .search-container input {
-      flex: 1;
-      padding: 12px 15px;
-      border: none;
-      border-radius: 25px;
-      font-size: 1rem;
-    }
+/* Search */
+.search-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
 
-    .search-container button {
-      padding: 12px 25px;
-      background-color: #CDAA80;
-      border: none;
-      border-radius: 25px;
-      color: #0F1E3F;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+.search-container input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 25px;
+  border: none;
+  font-size: 1rem;
+}
 
-    .search-container button:hover {
-      background-color: #997953;
-      color: #fff;
-    }
+/* Button */
+.search-container button {
+  padding: 12px 25px;
+  border-radius: 25px;
+  border: none;
+  background: #CDAA80;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-    /* Courses Grid */
-    .courses-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
+.search-container button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(205,170,128,0.6);
+}
 
-    .course-card {
-      background-color: #b5ddead8;
-      padding: 20px;
-      border-radius: 15px;
-      transition: transform 0.2s, box-shadow 0.2s;
-       color: #0F1E3F; /* dark text for readability */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
+/* Grid */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap: 20px;
+}
 
-    .course-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-    }
+/* Card */
+.course-card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 20px;
+  color: #fff;
+  transition: all 0.35s ease;
+}
 
-    .course-card h3 {
-      color: #0F1E3F;
-      margin-bottom: 10px;
-    }
+.course-card:hover {
+  transform: translateY(-10px) scale(1.02);
+}
 
-    .course-card p {
-      font-size: 0.95rem;
-      color: #0F1E3F;
-      margin-bottom: 10px;
-    }
+.course-card a {
+  display: inline-block;
+  margin-top: 10px;
+  color: #CDAA80;
+  font-weight: bold;
+  text-decoration: none;
+}
 
-    .course-card a {
-      text-decoration: none;
-      color: #0056b3;
-      font-weight: 600;
-    }
-
-    .course-card a:hover {
-      color: #0F1E3F;
-    }
-
-  </style>
+.status {
+  margin-top: 20px;
+  opacity: 0.8;
+}
+</style>
 </head>
+
 <body>
 
-  <!-- Navbar -->
-  <nav>
-    <div class="brand">
-      <a href="about.html" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
-      <i class="fas fa-compass"></i> Career Pilot
-      </a>
-    </div>
-    <ul class="center-links">
-      <li onclick="window.location.href='chatbot.html'"><i class="fas fa-robot"></i> AI Chatbot</li>
-      <li onclick="window.location.href='roadmap.html'"><i class="fas fa-project-diagram"></i> Roadmaps</li>
-      <li class="active"><i class="fas fa-book-open"></i> Courses</li>
-    </ul>
-    <div class="auth-buttons">
-      <button><i class="fas fa-user-circle"></i></button>
-    </div>
-  </nav>
+<script>
+const user = localStorage.getItem("careerpilotUser");
+if (!user) {
+  window.location.replace("signinlogin.html#login");
+}
+</script>
 
-  <!-- Main Content -->
-  <div class="content">
-    <h2>Recommended Courses</h2>
-    <p>Find Courses based on your Roles, Skills, and Interests.</p>
+<nav>
+  <a href="home.html">Career Pilot</a>
 
-    <!-- Search Bar -->
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Enter roles, skills, or interests...">
-      <button id="searchBtn">Get Courses</button>
-    </div>
+  <div class="center-links">
+    <!-- ✅ ADDED DASHBOARD -->
+    <span onclick="go('dashboard.html')">Dashboard</span>
+    <span onclick="go('chatbot.html')">Chatbot</span>
+    <span onclick="go('roadmap.html')">Roadmaps</span>
+  </div>
+</nav>
 
-    <!-- Courses Grid -->
-    <div class="courses-grid" id="coursesGrid">
-      <!-- Initial placeholder -->
-      <p style="color:#CDAA80;">Enter a role or skill and click "Get Courses" to see recommendations.</p>
-    </div>
+<div class="content">
+  <h2>📚 Recommended Courses</h2>
+
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Enter role or skill..." />
+    <button id="searchBtn">Search</button>
   </div>
 
-  <!-- JS to call Flask API -->
-  <script>
-    const searchBtn = document.getElementById('searchBtn');
-    const coursesGrid = document.getElementById('coursesGrid');
-    const searchInput = document.getElementById('searchInput');
+  <div id="status" class="status"></div>
 
-    searchBtn.addEventListener('click', async () => {
-      const query = searchInput.value.trim();
-      if (!query) return;
+  <div class="courses-grid" id="coursesGrid"></div>
+</div>
 
-      coursesGrid.innerHTML = ''; // Clear previous courses
+<script>
+function go(page) {
+  window.location.href = page;
+}
 
-      try {
-        // Fetch recommendations from Flask API
-        const response = await fetch(`http://127.0.0.1:5000/recommend?query=${encodeURIComponent(query)}`);
-        const data = await response.json();
-        const recommendations = data.recommendations;
+const input = document.getElementById("searchInput");
+const btn = document.getElementById("searchBtn");
+const grid = document.getElementById("coursesGrid");
+const status = document.getElementById("status");
 
-        if (recommendations.length === 0) {
-          coursesGrid.innerHTML = `<p style="color:#CDAA80;">No courses found for "${query}".</p>`;
-          return;
-        }
+/* ✅ USER KEY */
+const currentUser = JSON.parse(localStorage.getItem("careerpilotUser"));
+const courseKey = "courseCount_" + (currentUser?.email || "guest");
 
-        // Render course cards
-        recommendations.forEach(course => {
-          const card = document.createElement('div');
-          card.classList.add('course-card');
-          card.innerHTML = `
-            <h3>${course["Title of Course"]}</h3>
-            <p><strong>Role:</strong> ${course["Roles"]}</p>
-            <p><strong>Skills:</strong> ${course["Skills"]}</p>
-            <p><strong>Platform:</strong> ${course["Platform"]}</p>
-            <a href="${course["URL"]}" target="_blank">View Course</a>
-          `;
-          coursesGrid.appendChild(card);
-        });
+let courseCount = parseInt(localStorage.getItem(courseKey)) || 0;
 
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-        coursesGrid.innerHTML = `<p style="color:#CDAA80;">Failed to load courses. Please try again.</p>`;
-      }
+/* ✅ TRACK COURSE VIEW */
+function trackCourseClick() {
+  courseCount++;
+  localStorage.setItem(courseKey, courseCount);
+}
+
+async function fetchCourses(query) {
+  if (!query) return;
+
+  grid.innerHTML = "";
+  status.innerText = "⏳ Loading courses...";
+
+  try {
+    const res = await fetch(`http://127.0.0.1:5000/recommend?query=${encodeURIComponent(query)}`);
+    const data = await res.json();
+
+    if (!data.recommendations || data.recommendations.length === 0) {
+      status.innerText = "❌ No courses found";
+      return;
+    }
+
+    status.innerText = `Showing results for "${query}"`;
+
+    data.recommendations.forEach(course => {
+      const div = document.createElement("div");
+      div.className = "course-card";
+
+      div.innerHTML = `
+        <h3>${course["Title of Course"]}</h3>
+        <p><strong>Skills:</strong> ${course["Skills"]}</p>
+        <p><strong>Platform:</strong> ${course["Platform"]}</p>
+        <a href="${course["URL"]}" target="_blank" onclick="trackCourseClick()">View Course →</a>
+      `;
+
+      grid.appendChild(div);
     });
-  </script>
+
+  } catch (error) {
+    console.error(error);
+    status.innerText = "⚠️ Server error. Try again.";
+  }
+}
+
+btn.addEventListener("click", () => {
+  fetchCourses(input.value.trim());
+});
+
+input.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    fetchCourses(input.value.trim());
+  }
+});
+
+window.addEventListener("load", () => {
+  const params = new URLSearchParams(window.location.search);
+  const query = params.get("query");
+
+  if (query) {
+    input.value = query;
+    fetchCourses(query);
+  }
+});
+</script>
 
 </body>
 </html>
-
