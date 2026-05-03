@@ -112,6 +112,14 @@ nav a {
 
 <body>
 
+<!-- ✅ AUTO LOGOUT FIX -->
+<script>
+const user = sessionStorage.getItem("careerpilotUser");
+if (!user) {
+  window.location.replace("signinlogin.html#login");
+}
+</script>
+
 <nav>
   <a href="home.html"><i class="fas fa-compass"></i> Career Pilot</a>
   <div class="nav-links">
@@ -129,7 +137,6 @@ nav a {
 <script>
 function go(page){ window.location.href=page; }
 
-/* ✅ FIXED FUNCTIONS */
 function goToCourses(role){
   const clean = role.toLowerCase().trim();
   window.location.href = "pagecourse.html?query=" + encodeURIComponent(clean);
@@ -179,7 +186,6 @@ function saveTicks(){
   localStorage.setItem("roadmapTicks",JSON.stringify(ticks));
 }
 
-/* STEP TOGGLE */
 function toggleStep(el,index,stepIndex){
   event.stopPropagation();
 
@@ -207,7 +213,6 @@ function toggleStep(el,index,stepIndex){
   saveTicks();
 }
 
-/* CREATE CARDS */
 data.forEach((r,index)=>{
   const card=document.createElement("div");
   card.className="card";
@@ -248,7 +253,6 @@ data.forEach((r,index)=>{
   container.appendChild(card);
 });
 
-/* RESET */
 function reset(i){
   document.getElementById(`bar-${i}`).style.width="0%";
   saveProgress(i,0);

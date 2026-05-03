@@ -138,8 +138,9 @@ h2 {
 
 <body>
 
+<!-- ✅ AUTO LOGOUT FIX -->
 <script>
-const user = localStorage.getItem("careerpilotUser");
+const user = sessionStorage.getItem("careerpilotUser"); // changed
 if (!user) {
   window.location.replace("signinlogin.html#login");
 }
@@ -180,8 +181,8 @@ const status = document.getElementById("status");
 /* ✅ LIVE BACKEND URL */
 const BASE_URL = "https://smart-roadmap-backend.onrender.com";
 
-/* USER TRACKING */
-const currentUser = JSON.parse(localStorage.getItem("careerpilotUser"));
+/* ✅ USER FIX */
+const currentUser = JSON.parse(sessionStorage.getItem("careerpilotUser")); // changed
 const courseKey = "courseCount_" + (currentUser?.email || "guest");
 
 let courseCount = parseInt(localStorage.getItem(courseKey)) || 0;
@@ -238,7 +239,7 @@ input.addEventListener("keypress", (e) => {
   }
 });
 
-/* ✅ AUTO SEARCH FIX */
+/* AUTO SEARCH */
 window.addEventListener("load", () => {
   const params = new URLSearchParams(window.location.search);
   const query = params.get("query");

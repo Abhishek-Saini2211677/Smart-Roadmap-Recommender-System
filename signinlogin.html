@@ -244,7 +244,7 @@ function saveUsers(users) {
 signinForm.onsubmit = (e) => {
   e.preventDefault();
 
-  const name = nameInput = document.getElementById("name").value;
+  const name = document.getElementById("name").value;
   const email = signinEmail.value.toLowerCase();
   const password = signinPassword.value;
 
@@ -274,8 +274,8 @@ loginForm.onsubmit = (e) => {
   const user = users.find(u => u.email === email && u.password === password);
 
   if (user) {
-    localStorage.setItem("careerpilotUser", JSON.stringify(user));
-    localStorage.setItem("isLoggedIn", "true");
+    sessionStorage.setItem("careerpilotUser", JSON.stringify(user)); // ✅ FIXED
+    sessionStorage.setItem("isLoggedIn", "true"); // ✅ FIXED
 
     alert("Login success 🎉");
     location.href = "home.html";

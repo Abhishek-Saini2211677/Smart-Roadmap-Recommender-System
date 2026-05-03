@@ -8,13 +8,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
+/* ❌ NO CHANGE IN CSS */
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: radial-gradient(circle at top, #1b2b5a, #0f1e3f);
   color: #fff;
 }
-
 nav {
   display: flex;
   justify-content: space-between;
@@ -22,24 +22,18 @@ nav {
   background-color: rgba(15, 30, 63, 0.95);
   padding: 18px 50px;
 }
-
 nav a {
   color: #fff;
   text-decoration: none;
   font-size: 1.8rem;
   font-weight: 700;
 }
-
 .center-links {
   display: flex;
   gap: 35px;
   list-style: none;
 }
-
-.center-links li {
-  cursor: pointer;
-}
-
+.center-links li { cursor: pointer; }
 .chat-container {
   max-width: 800px;
   margin: 50px auto;
@@ -50,15 +44,12 @@ nav a {
   display: flex;
   flex-direction: column;
 }
-
-/* Heading */
 .chat-heading {
   text-align: center;
   font-weight: 600;
   margin-bottom: 10px;
   color: #CDAA80;
 }
-
 .chat-window {
   flex: 1;
   overflow-y: auto;
@@ -68,7 +59,6 @@ nav a {
   display: flex;
   flex-direction: column;
 }
-
 .message {
   padding: 10px 15px;
   margin: 8px 0;
@@ -76,35 +66,28 @@ nav a {
   max-width: 70%;
   white-space: pre-line;
 }
-
-/* Avatar */
 .message.user::before { content: "👤 "; }
 .message.bot::before { content: "🤖 "; }
-
 .user {
   background: #CDAA80;
   color: black;
   align-self: flex-end;
 }
-
 .bot {
   background: rgba(255,255,255,0.1);
   align-self: flex-start;
 }
-
 .input-area {
   display: flex;
   gap: 10px;
   margin-top: 10px;
 }
-
 .input-area input {
   flex: 1;
   padding: 10px;
   border-radius: 25px;
   border: none;
 }
-
 .send-btn {
   padding: 10px 20px;
   border-radius: 25px;
@@ -112,7 +95,6 @@ nav a {
   background: #CDAA80;
   cursor: pointer;
 }
-
 .delete-btn {
   padding: 10px 15px;
   border-radius: 25px;
@@ -127,7 +109,8 @@ nav a {
 <body>
 
 <script>
-const user = localStorage.getItem("careerpilotUser");
+/* ✅ AUTO LOGOUT FIX (ONLY CHANGE HERE) */
+const user = sessionStorage.getItem("careerpilotUser");
 if (!user) window.location.replace("signinlogin.html#login");
 </script>
 
@@ -152,16 +135,21 @@ if (!user) window.location.replace("signinlogin.html#login");
 </div>
 
 <script>
+
+/* ✅ CHANGE HERE ALSO */
 function goIfLoggedIn(page) {
-  const user = localStorage.getItem("careerpilotUser");
+  const user = sessionStorage.getItem("careerpilotUser");
   window.location.href = user ? page : "signinlogin.html#login";
 }
 
+/* ✅ CHANGE HERE */
+const currentUser = JSON.parse(sessionStorage.getItem("careerpilotUser"));
+
+/* ❌ REMAINING CODE SAME */
 const sendBtn = document.getElementById('sendBtn');
 const userInput = document.getElementById('userInput');
 const chatWindow = document.getElementById('chatWindow');
 
-const currentUser = JSON.parse(localStorage.getItem("careerpilotUser"));
 const chatKey = "chatHistory_" + (currentUser?.email || "guest");
 
 let history = JSON.parse(localStorage.getItem(chatKey)) || [];
@@ -243,7 +231,6 @@ function getDomain(text) {
   return null;
 }
 
-/* ✅ FIXED BACKEND URL */
 const BASE_URL = "https://smart-roadmap-backend.onrender.com";
 
 async function botResponse(msg) {
@@ -297,8 +284,7 @@ Here’s your next step:
 Ready to start? 😎${courses}`;
 
   } catch (e) {
-    console.log(e);
-    return "⚠️ Backend not responding (Render may be sleeping). Try again in few seconds.";
+    return "⚠️ Backend not responding (Render may be sleeping). Try again.";
   }
 }
 
@@ -318,7 +304,6 @@ userInput.addEventListener("keypress", e => {
   if (e.key === "Enter") sendMessage();
 });
 
-/* ✅ FIXED AUTO SEARCH */
 window.onload = () => {
   loadHistory();
 
@@ -334,7 +319,7 @@ window.onload = () => {
 
     setTimeout(() => {
       sendMessage();
-    }, 800); // delay for render wakeup
+    }, 800);
   }
 };
 </script>

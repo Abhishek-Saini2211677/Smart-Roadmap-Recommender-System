@@ -208,7 +208,6 @@ nav {
 
 <body>
 
-<!-- NAVBAR -->
 <nav>
   <div class="brand">
     <a href="home.html"><i class="fas fa-compass"></i> Career Pilot</a>
@@ -227,20 +226,16 @@ nav {
   </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <h1>Build Your Career with <br><span>AI Guidance</span></h1>
   <p>Smart suggestions, structured roadmaps, and powerful learning tools.</p>
   <button onclick="startJourney()">Start Journey 🚀</button>
 </section>
 
-<!-- FEATURES -->
 <section class="features">
   <h2>Explore Features</h2>
 
   <div class="cards">
-
-    <!-- NEW DASHBOARD CARD -->
     <div class="card">
       <i class="fas fa-chart-line"></i>
       <h3>Dashboard</h3>
@@ -264,14 +259,13 @@ nav {
       <h3>Courses</h3>
       <button onclick="goProtected('pagecourse.html')">View</button>
     </div>
-
   </div>
 </section>
 
 <script>
-// 🔐 PROTECTION
+// 🔐 PROTECTION (FIXED)
 function goProtected(page) {
-  const user = localStorage.getItem("careerpilotUser");
+  const user = sessionStorage.getItem("careerpilotUser");
 
   if (user) {
     window.location.href = page;
@@ -293,9 +287,9 @@ function startJourney() {
   goProtected("about.html");
 }
 
-// 👤 USER DISPLAY
+// 👤 USER DISPLAY (FIXED)
 window.addEventListener("load", () => {
-  const user = JSON.parse(localStorage.getItem("careerpilotUser"));
+  const user = JSON.parse(sessionStorage.getItem("careerpilotUser"));
 
   if (user) {
     document.getElementById("authArea").innerHTML = `
@@ -305,9 +299,9 @@ window.addEventListener("load", () => {
   }
 });
 
-// 🚪 LOGOUT
+// 🚪 LOGOUT (FIXED)
 function logout() {
-  localStorage.removeItem("careerpilotUser");
+  sessionStorage.removeItem("careerpilotUser");
   localStorage.removeItem("chatHistory");
   window.location.href = "signinlogin.html#login";
 }
