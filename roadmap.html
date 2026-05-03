@@ -73,7 +73,6 @@ nav a {
 .container { padding:40px;text-align:center; }
 .cards { display:grid;grid-template-columns:repeat(3,1fr);gap:20px; }
 
-/* ✅ FIX ADDED HERE */
 .card {
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(12px);
@@ -138,6 +137,11 @@ function goToChatbot(role){
   window.location.href="chatbot.html?query="+encodeURIComponent(role);
 }
 
+/* ✅ NEW FUNCTION */
+function openDetails(title){
+  window.location.href = "roadmap-details.html?role=" + encodeURIComponent(title);
+}
+
 /* DATA */
 const data = [
   {title:"Web Development",duration:"3-6 Months",level:"Beginner",progress:20,steps:["HTML","CSS","JS","React"]},
@@ -173,8 +177,10 @@ function saveTicks(){
   localStorage.setItem("roadmapTicks",JSON.stringify(ticks));
 }
 
-/* 25% STEP LOGIC */
+/* 25% LOGIC */
 function toggleStep(el,index,stepIndex){
+  event.stopPropagation();
+
   let bar=document.getElementById(`bar-${index}`);
   let v=getWidth(bar);
 
@@ -208,7 +214,9 @@ data.forEach((r,index)=>{
   ticks[index]=ticks[index]||{};
 
   card.innerHTML=`
-    <h2>${r.title}</h2>
+    <h2 onclick="openDetails('${r.title}')" style="cursor:pointer;">
+      ${r.title}
+    </h2>
 
     <div class="duration">⏳ ${r.duration}</div>
     <div class="level">🎯 ${r.level}</div>
@@ -226,12 +234,12 @@ data.forEach((r,index)=>{
     </ul>
 
     <div class="btn-group">
-      <button class="btn chat-btn" onclick="goToChatbot('${r.title}')">🤖 Chatbot</button>
-      <button class="btn course-btn" onclick="goToCourses('${r.title}')">📚 Courses</button>
+      <button class="btn chat-btn" onclick="event.stopPropagation();goToChatbot('${r.title}')">🤖 Chatbot</button>
+      <button class="btn course-btn" onclick="event.stopPropagation();goToCourses('${r.title}')">📚 Courses</button>
     </div>
 
     <div class="btn-group">
-      <button class="btn reset-btn" onclick="reset(${index})">🔄 Reset</button>
+      <button class="btn reset-btn" onclick="event.stopPropagation();reset(${index})">🔄 Reset</button>
     </div>
   `;
 

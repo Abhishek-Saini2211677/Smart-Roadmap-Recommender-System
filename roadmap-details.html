@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap Details</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #1b2b5a, #0f1e3f);
+  color: white;
+  text-align: center;
+}
+
+/* TITLE */
+h1 {
+  margin-top: 20px;
+}
+
+/* PROGRESS BAR */
+.progress-container {
+  width: 80%;
+  margin: 10px auto;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+}
+
+.progress-bar {
+  height: 10px;
+  background: #CDAA80;
+  width: 0%;
+  border-radius: 10px;
+}
+
+/* FLOW */
+.flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+
+/* STEP CARD */
+.step {
+  background: rgba(255,255,255,0.08);
+  padding: 15px;
+  border-radius: 12px;
+  margin: 12px 0;
+  width: 280px;
+  position: relative;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.step:hover {
+  transform: scale(1.05);
+}
+
+/* DONE STATE */
+.done {
+  background: rgba(0,255,150,0.2);
+}
+
+/* CHECKBOX */
+.check {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+}
+
+/* DETAILS */
+.details {
+  display: none;
+  font-size: 0.85rem;
+  margin-top: 10px;
+  opacity: 0.8;
+}
+
+/* TIME */
+.time {
+  font-size: 0.8rem;
+  color: #CDAA80;
+}
+
+/* ARROW */
+.step::after {
+  content: "↓";
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.step:last-child::after {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="title"></h1>
+
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="flow" id="flow"></div>
+
+<script>
+
+/* GET ROLE */
+const params = new URLSearchParams(window.location.search);
+let role = params.get("role") || "general";
+role = role.toLowerCase();
+
+document.getElementById("title").innerText = role.toUpperCase() + " ROADMAP";
+
+/* STORAGE KEY */
+const progressKey = "roadmap_progress_" + role;
+
+/* DATA */
+let roadmap = [];
+
+if (role.includes("web")) {
+  roadmap = [
+    {name:"HTML", time:"1 Week", detail:"Learn structure of web pages"},
+    {name:"CSS", time:"2 Weeks", detail:"Design and layouts"},
+    {name:"JavaScript", time:"3 Weeks", detail:"Make sites interactive"},
+    {name:"React", time:"3 Weeks", detail:"Frontend framework"},
+    {name:"Node.js", time:"2 Weeks", detail:"Backend basics"},
+    {name:"Projects", time:"3 Weeks", detail:"Build real apps"}
+  ];
+}
+else if (role.includes("android")) {
+  roadmap = [
+    {name:"Java/Kotlin", time:"2 Weeks", detail:"Core language"},
+    {name:"UI Design", time:"2 Weeks", detail:"XML + layouts"},
+    {name:"API Integration", time:"2 Weeks", detail:"Connect backend"},
+    {name:"Firebase", time:"2 Weeks", detail:"Auth + DB"},
+    {name:"Publishing", time:"1 Week", detail:"Deploy to Play Store"}
+  ];
+}
+else if (role.includes("ai") || role.includes("ml")) {
+  roadmap = [
+    {name:"Python", time:"2 Weeks", detail:"Basics + syntax"},
+    {name:"Pandas/NumPy", time:"2 Weeks", detail:"Data handling"},
+    {name:"Machine Learning", time:"4 Weeks", detail:"Core ML"},
+    {name:"Deep Learning", time:"4 Weeks", detail:"Neural networks"},
+    {name:"Projects", time:"3 Weeks", detail:"Real AI apps"}
+  ];
+}
+else if (role.includes("data")) {
+  roadmap = [
+    {name:"Python", time:"2 Weeks", detail:"Programming"},
+    {name:"Pandas", time:"2 Weeks", detail:"Data analysis"},
+    {name:"Visualization", time:"2 Weeks", detail:"Charts"},
+    {name:"Statistics", time:"2 Weeks", detail:"Math base"},
+    {name:"ML", time:"4 Weeks", detail:"Prediction models"}
+  ];
+}
+else if (role.includes("cloud")) {
+  roadmap = [
+    {name:"Linux", time:"2 Weeks", detail:"Basics"},
+    {name:"AWS", time:"3 Weeks", detail:"Cloud services"},
+    {name:"Docker", time:"2 Weeks", detail:"Containers"},
+    {name:"Kubernetes", time:"3 Weeks", detail:"Orchestration"}
+  ];
+}
+else {
+  roadmap = [
+    {name:"Networking", time:"2 Weeks", detail:"Basics"},
+    {name:"Linux", time:"2 Weeks", detail:"Commands"},
+    {name:"Ethical Hacking", time:"4 Weeks", detail:"Security"},
+    {name:"Pen Testing", time:"3 Weeks", detail:"Testing"}
+  ];
+}
+
+/* LOAD SAVED */
+let saved = JSON.parse(localStorage.getItem(progressKey)) || [];
+
+/* RENDER */
+const flow = document.getElementById("flow");
+
+roadmap.forEach((step,index)=>{
+  const div = document.createElement("div");
+  div.className = "step";
+
+  const checked = saved.includes(index);
+
+  if (checked) div.classList.add("done");
+
+  div.innerHTML = `
+    <input type="checkbox" class="check" ${checked ? "checked" : ""}>
+    <b>${step.name}</b>
+    <div class="time">${step.time}</div>
+    <div class="details">${step.detail}</div>
+  `;
+
+  const checkbox = div.querySelector(".check");
+  const details = div.querySelector(".details");
+
+  /* TOGGLE DETAILS */
+  div.onclick = (e) => {
+    if (e.target.tagName !== "INPUT") {
+      details.style.display = details.style.display === "block" ? "none" : "block";
+    }
+  };
+
+  /* SAVE PROGRESS */
+  checkbox.onclick = (e) => {
+    e.stopPropagation();
+
+    if (checkbox.checked) {
+      saved.push(index);
+      div.classList.add("done");
+    } else {
+      saved = saved.filter(i => i !== index);
+      div.classList.remove("done");
+    }
+
+    localStorage.setItem(progressKey, JSON.stringify(saved));
+    updateProgress();
+  };
+
+  flow.appendChild(div);
+});
+
+/* PROGRESS */
+function updateProgress() {
+  const percent = (saved.length / roadmap.length) * 100;
+  document.getElementById("progressBar").style.width = percent + "%";
+}
+
+updateProgress();
+
+</script>
+
+</body>
+</html>
