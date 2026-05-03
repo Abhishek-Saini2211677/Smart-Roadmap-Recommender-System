@@ -94,6 +94,15 @@ nav {
   color: #0F1E3F;
   cursor: pointer;
 }
+
+/* Activity list */
+.activity li {
+  margin: 8px 0;
+  background: #997953;
+  padding: 10px;
+  border-radius: 8px;
+  color: #0F1E3F;
+}
 </style>
 </head>
 
@@ -113,7 +122,6 @@ if (!user) {
   </div>
 
   <div class="nav-links">
-    <!-- ❌ Dashboard removed -->
     <span onclick="go('chatbot.html')">Chatbot</span>
     <span onclick="go('roadmap.html')">Roadmaps</span>
     <span onclick="go('pagecourse.html')">Courses</span>
@@ -148,6 +156,33 @@ if (!user) {
     </div>
   </div>
 
+  <!-- PROGRESS DETAILS -->
+  <h2 style="margin-top:40px;">📈 Progress Details</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>✅ Completed</h3>
+      <div class="stat" id="completedStat">0</div>
+    </div>
+
+    <div class="card">
+      <h3>⏳ In Progress</h3>
+      <div class="stat" id="inprogressStat">0</div>
+    </div>
+
+    <div class="card">
+      <h3>🆕 Not Started</h3>
+      <div class="stat" id="notstartedStat">0</div>
+    </div>
+  </div>
+
+  <!-- RECENT ACTIVITY -->
+  <h2 style="margin-top:40px;">🕒 Recent Activity</h2>
+
+  <div class="card">
+    <ul id="activityList" class="activity" style="list-style:none;padding:0;"></ul>
+  </div>
+
   <!-- ACTIONS -->
   <h2 style="margin-top:40px;">⚡ Quick Actions</h2>
 
@@ -175,53 +210,79 @@ if (!user) {
 const userData = JSON.parse(localStorage.getItem("careerpilotUser"));
 document.getElementById("username").innerText = userData.name;
 
-// USER NAV
-document.getElementById("userArea").innerHTML = `
-  Hi, ${userData.name}
-`;
+document.getElementById("userArea").innerHTML = `Hi, ${userData.name}`;
 
-// NAVIGATION
 function go(page) {
   window.location.href = page;
 }
 
-/* 🔥 ROADMAP PROGRESS */
+/* PROGRESS */
 function loadDashboardProgress() {
   const progressData = JSON.parse(localStorage.getItem("roadmapProgress")) || {};
   const values = Object.values(progressData);
 
-  let avg = 0;
-  if (values.length > 0) {
-    avg = Math.floor(values.reduce((a, b) => a + b, 0) / values.length);
-  }
+  let avg = values.length
+    ? Math.floor(values.reduce((a, b) => a + b, 0) / values.length)
+    : 0;
 
   document.getElementById("progressStat").innerText = avg + "%";
 }
 
-/* 🔥 CHAT SESSION */
+/* CHAT */
 function loadChatSessions() {
   const user = JSON.parse(localStorage.getItem("careerpilotUser"));
   const key = "chatCount_" + (user?.email || "guest");
 
-  const count = parseInt(localStorage.getItem(key)) || 0;
-
-  document.getElementById("chatStat").innerText = count;
+  document.getElementById("chatStat").innerText =
+    parseInt(localStorage.getItem(key)) || 0;
 }
 
-/* 🔥 COURSE VIEWS */
+/* COURSES */
 function loadCourseViews() {
   const user = JSON.parse(localStorage.getItem("careerpilotUser"));
   const key = "courseCount_" + (user?.email || "guest");
 
-  const count = parseInt(localStorage.getItem(key)) || 0;
+  document.getElementById("courseStat").innerText =
+    parseInt(localStorage.getItem(key)) || 0;
+}
 
-  document.getElementById("courseStat").innerText = count;
+/* EXTRA STATS + ACTIVITY */
+function loadExtraDashboardData() {
+  const progressData = JSON.parse(localStorage.getItem("roadmapProgress")) || {};
+  const values = Object.values(progressData);
+
+  let completed = 0, inprogress = 0, notstarted = 0;
+
+  values.forEach(v => {
+    if (v === 100) completed++;
+    else if (v > 0) inprogress++;
+    else notstarted++;
+  });
+
+  document.getElementById("completedStat").innerText = completed;
+  document.getElementById("inprogressStat").innerText = inprogress;
+  document.getElementById("notstartedStat").innerText = notstarted;
+
+  const list = document.getElementById("activityList");
+  list.innerHTML = "";
+
+  if (values.length === 0) {
+    list.innerHTML = "<li>No activity yet</li>";
+    return;
+  }
+
+  values.slice().reverse().forEach((v, i) => {
+    const li = document.createElement("li");
+    li.innerText = `Roadmap ${values.length - i}: ${v}% completed`;
+    list.appendChild(li);
+  });
 }
 
 /* RUN */
 loadDashboardProgress();
 loadChatSessions();
 loadCourseViews();
+loadExtraDashboardData();
 </script>
 
 </body>

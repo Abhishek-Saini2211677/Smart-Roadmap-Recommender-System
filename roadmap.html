@@ -15,8 +15,6 @@ body {
   background: radial-gradient(circle at top, #1b2b5a, #0f1e3f);
   color: #fff;
 }
-
-/* Glow effect */
 body::before {
   content: "";
   position: fixed;
@@ -28,187 +26,97 @@ body::before {
   left: 50%;
   transform: translateX(-50%);
   opacity: 0.25;
-  z-index: 0;
 }
 
-/* Navbar */
 nav {
   display: flex;
   justify-content: space-between;
   padding: 18px 50px;
   background: rgba(0,0,0,0.3);
-  position: relative;
-  z-index: 1;
 }
 
-nav a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.5rem;
-  font-weight: 600;
+nav a { 
+  color:#fff;
+  text-decoration:none;
+  font-size:1.5rem;
 }
 
-.nav-links {
-  display: flex;
-  gap: 25px;
+.nav-links { 
+  display:flex;
+  gap:25px;
 }
 
 .nav-links span {
   cursor: pointer;
-  transition: 0.3s;
+  position: relative;
+}
+
+.nav-links span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #CDAA80;
+  transition: width 0.3s ease;
+}
+
+.nav-links span:hover::after {
+  width: 100%;
 }
 
 .nav-links span:hover {
   color: #CDAA80;
-  transform: translateY(-2px);
 }
 
-/* Container */
-.container {
-  padding: 40px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
+.container { padding:40px;text-align:center; }
+.cards { display:grid;grid-template-columns:repeat(3,1fr);gap:20px; }
 
-.title {
-  font-size: 2.5rem;
-  margin-bottom: 30px;
-}
-
-/* Cards */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
-  gap: 20px;
-}
-
-/* 🔥 GLASS CARD */
+/* ✅ FIX ADDED HERE */
 .card {
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 15px;
-
-  padding: 20px;
-  text-align: left;
-
+  padding:20px;
   transition: all 0.35s ease;
 }
 
-/* 🔥 HOVER EFFECT */
 .card:hover {
   transform: translateY(-10px) scale(1.02);
-
   box-shadow: 
     0 10px 30px rgba(0,0,0,0.4),
     0 0 20px rgba(205,170,128,0.3);
-
-  border: 1px solid rgba(205,170,128,0.6);
 }
 
-/* Tags */
-.duration, .level {
-  background: #CDAA80;
-  color: #0F1E3F;
-  padding: 5px 10px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  display: inline-block;
-  margin-right: 5px;
-  margin-bottom: 10px;
-}
+.progress { background:#ddd;height:8px;border-radius:10px;overflow:hidden;margin-bottom:15px; }
+.progress-bar { background:#CDAA80;height:100%; }
 
-/* Progress */
-.progress {
-  background: #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-  height: 8px;
-  margin-bottom: 15px;
-}
-
-.progress-bar {
-  height: 100%;
-  background: #CDAA80;
-  width: 0%;
-}
-
-/* Steps */
-.steps {
-  list-style: none;
-  padding: 0;
-}
-
+.steps { list-style:none;padding:0; }
 .steps li {
-  margin: 8px 0;
-  padding: 8px;
-  background: #997953;
-  border-radius: 8px;
-  color: #0F1E3F;
-  cursor: pointer;
-  transition: 0.3s;
+  margin:8px 0;
+  padding:8px;
+  background:#997953;
+  border-radius:8px;
+  color:#0F1E3F;
+  cursor:pointer;
 }
 
-.steps li:hover {
-  transform: scale(1.05);
-}
+.btn-group { margin-top:15px;display:flex;gap:10px; }
+.btn { flex:1;padding:10px;border:none;border-radius:8px;cursor:pointer; }
 
-/* Buttons */
-.btn-group {
-  margin-top: 15px;
-  display: flex;
-  gap: 10px;
-}
-
-.btn {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(205,170,128,0.6);
-}
-
-.chat-btn {
-  background: #CDAA80;
-  color: #0F1E3F;
-}
-
-.course-btn {
-  background: #fff;
-  color: #213A56;
-}
-
-.reset-btn {
-  background: #ff6b6b;
-  color: #fff;
-}
+.chat-btn { background:#CDAA80;color:#0F1E3F; }
+.course-btn { background:#fff;color:#213A56; }
+.reset-btn { background:#ff6b6b;color:#fff; }
 </style>
 </head>
 
 <body>
 
-<script>
-const user = localStorage.getItem("careerpilotUser");
-if (!user) {
-  window.location.replace("signinlogin.html#login");
-}
-</script>
-
 <nav>
   <a href="home.html"><i class="fas fa-compass"></i> Career Pilot</a>
-
   <div class="nav-links">
-    <span onclick="go('dashboard.html')">Dashboard</span> <!-- ✅ ADDED -->
+    <span onclick="go('dashboard.html')">Dashboard</span>
     <span onclick="go('chatbot.html')">Chatbot</span>
     <span onclick="go('pagecourse.html')">Courses</span>
   </div>
@@ -220,54 +128,86 @@ if (!user) {
 </div>
 
 <script>
-function go(page) {
-  window.location.href = page;
+function go(page){ window.location.href=page; }
+
+function goToCourses(role){
+  window.location.href="pagecourse.html?query="+encodeURIComponent(role);
 }
 
-function goToCourses(role) {
-  window.location.href = "pagecourse.html?query=" + encodeURIComponent(role);
+function goToChatbot(role){
+  window.location.href="chatbot.html?query="+encodeURIComponent(role);
 }
 
-function goToChatbot(role) {
-  window.location.href = "chatbot.html?query=" + encodeURIComponent(role);
-}
-
+/* DATA */
 const data = [
-  {
-    title: "Web Development",
-    duration: "3 - 6 Months",
-    level: "Beginner",
-    progress: 20,
-    steps: ["HTML", "CSS", "JavaScript", "React", "Node.js"]
-  },
-  {
-    title: "Data Science",
-    duration: "4 - 8 Months",
-    level: "Intermediate",
-    progress: 40,
-    steps: ["Python", "Pandas", "Visualization", "Machine Learning"]
-  },
-  {
-    title: "AI/ML Engineer",
-    duration: "6 - 12 Months",
-    level: "Advanced",
-    progress: 10,
-    steps: ["Python", "ML", "Deep Learning", "NLP"]
-  }
+  {title:"Web Development",duration:"3-6 Months",level:"Beginner",progress:20,steps:["HTML","CSS","JS","React"]},
+  {title:"Data Science",duration:"4-8 Months",level:"Intermediate",progress:40,steps:["Python","Pandas","ML","Visualization"]},
+  {title:"AI/ML Engineer",duration:"6-12 Months",level:"Advanced",progress:10,steps:["Python","ML","DL","NLP"]},
+  {title:"Cyber Security",duration:"4-7 Months",level:"Intermediate",progress:15,steps:["Networking","Linux","Hacking","Testing"]},
+  {title:"Android Development",duration:"3-6 Months",level:"Beginner",progress:25,steps:["Java","UI","API","Firebase"]},
+  {title:"Cloud Computing",duration:"4-8 Months",level:"Intermediate",progress:20,steps:["AWS","Docker","Kubernetes","Deploy"]}
 ];
 
-const container = document.getElementById("roadmapContainer");
+const container=document.getElementById("roadmapContainer");
 
-/* LOAD SAVED */
-let saved = JSON.parse(localStorage.getItem("roadmapProgress")) || {};
+let saved=JSON.parse(localStorage.getItem("roadmapProgress"))||{};
+let ticks=JSON.parse(localStorage.getItem("roadmapTicks"))||{};
 
-data.forEach((r, index) => {
-  let value = saved[index] ?? r.progress;
+function getWidth(bar){
+  return parseInt(bar.style.width)||0;
+}
 
-  const card = document.createElement("div");
-  card.className = "card";
+function saveProgress(index,value){
+  let p=JSON.parse(localStorage.getItem("roadmapProgress"))||{};
+  p[index]=value;
+  localStorage.setItem("roadmapProgress",JSON.stringify(p));
 
-  card.innerHTML = `
+  let avg=Object.values(p).length
+    ? Math.floor(Object.values(p).reduce((a,b)=>a+b,0)/Object.values(p).length)
+    :0;
+
+  localStorage.setItem("dashboardData",JSON.stringify({progress:avg}));
+}
+
+function saveTicks(){
+  localStorage.setItem("roadmapTicks",JSON.stringify(ticks));
+}
+
+/* 25% STEP LOGIC */
+function toggleStep(el,index,stepIndex){
+  let bar=document.getElementById(`bar-${index}`);
+  let v=getWidth(bar);
+
+  ticks[index]=ticks[index]||{};
+  let done=ticks[index][stepIndex];
+
+  if(done){
+    ticks[index][stepIndex]=false;
+    el.querySelector(".tick").style.display="none";
+    v -= 25;
+  }else{
+    ticks[index][stepIndex]=true;
+    el.querySelector(".tick").style.display="inline";
+    v += 25;
+  }
+
+  if(v<0) v=0;
+  if(v>100) v=100;
+
+  bar.style.width=v+"%";
+  saveProgress(index,v);
+  saveTicks();
+}
+
+/* CREATE CARDS */
+data.forEach((r,index)=>{
+  const card=document.createElement("div");
+  card.className="card";
+
+  let value=saved[index]??r.progress;
+  ticks[index]=ticks[index]||{};
+
+  card.innerHTML=`
     <h2>${r.title}</h2>
 
     <div class="duration">⏳ ${r.duration}</div>
@@ -278,12 +218,11 @@ data.forEach((r, index) => {
     </div>
 
     <ul class="steps">
-      ${r.steps.map(s => `
-        <li onclick="increaseProgress(${index})"
-            oncontextmenu="decreaseProgress(event, ${index})">
-          <i class="fas fa-check-circle"></i> ${s}
-        </li>
-      `).join("")}
+      ${r.steps.map((s,i)=>`
+        <li onclick="toggleStep(this,${index},${i})">
+          ${s}
+          <span class="tick" style="float:right;display:${ticks[index][i]?'inline':'none'};">✔️</span>
+        </li>`).join("")}
     </ul>
 
     <div class="btn-group">
@@ -292,52 +231,23 @@ data.forEach((r, index) => {
     </div>
 
     <div class="btn-group">
-      <button class="btn reset-btn" onclick="resetProgress(${index})">🔄 Reset</button>
+      <button class="btn reset-btn" onclick="reset(${index})">🔄 Reset</button>
     </div>
   `;
 
   container.appendChild(card);
 });
 
-/* SAVE + DASHBOARD */
-function saveProgress(index, value) {
-  let p = JSON.parse(localStorage.getItem("roadmapProgress")) || {};
-  p[index] = value;
-  localStorage.setItem("roadmapProgress", JSON.stringify(p));
+/* RESET */
+function reset(i){
+  document.getElementById(`bar-${i}`).style.width="0%";
+  saveProgress(i,0);
 
-  let values = Object.values(p);
-  let avg = values.length ? Math.floor(values.reduce((a,b)=>a+b,0)/values.length) : 0;
+  ticks[i]={};
+  saveTicks();
 
-  localStorage.setItem("dashboardData", JSON.stringify({ progress: avg }));
-}
-
-/* FUNCTIONS */
-function increaseProgress(index) {
-  const bar = document.getElementById(`bar-${index}`);
-  let current = parseInt(bar.style.width);
-
-  if (current < 100) {
-    current += 10;
-    bar.style.width = current + "%";
-    saveProgress(index, current);
-  }
-}
-
-function decreaseProgress(e, index) {
-  e.preventDefault();
-  const bar = document.getElementById(`bar-${index}`);
-  let current = parseInt(bar.style.width);
-
-  if (current > 0) {
-    current -= 10;
-    bar.style.width = current + "%";
-    saveProgress(index, current);
-  }
-}
-
-function resetProgress(index) {
-  document.getElementById(`bar-${index}`).style.width = "0%";
-  saveProgress(index, 0);
+  document.querySelectorAll(`#roadmapContainer .card:nth-child(${i+1}) .tick`)
+    .forEach(t=>t.style.display="none");
 }
 </script>
 
