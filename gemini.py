@@ -2,52 +2,65 @@ from flask import Flask, request, jsonify
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from flask_cors import CORS  # To allow requests from frontend
+from flask_cors import CORS
+import os
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)
+
+# --------------------------
+# Load CSV safely (FIXED)
+# --------------------------
+try:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(BASE_DIR, 'courses.csv')
+
+    courses_df = pd.read_csv(csv_path)
+
+    vectorizer = TfidfVectorizer(stop_words='english')
+    tfidf_matrix = vectorizer.fit_transform(courses_df['Skills'])
+
+    print("✅ courses.csv loaded successfully")
+except Exception as e:
+    print("❌ Error loading courses:", e)
+    courses_df = pd.DataFrame()
+    tfidf_matrix = None
 
 # --------------------------
 # Courses Recommendation API
 # --------------------------
-try:
-    courses_df = pd.read_csv('courses.csv')
-    vectorizer = TfidfVectorizer(stop_words='english')
-    tfidf_matrix = vectorizer.fit_transform(courses_df['Skills'])
-    print("Successfully loaded 'courses.csv'.")
-    print("TF-IDF matrix created successfully.")
-except Exception as e:
-    print("Error loading courses:", e)
-    courses_df = pd.DataFrame()
-    tfidf_matrix = None
-
 @app.route('/recommend', methods=['GET'])
 def recommend_courses():
-    if courses_df.empty:
+    if courses_df.empty or tfidf_matrix is None:
         return jsonify({'recommendations': []})
 
     query = request.args.get('query', '')
     if not query:
         return jsonify({'recommendations': []})
 
-    query_vec = vectorizer.transform([query])
-    similarity = cosine_similarity(query_vec, tfidf_matrix)
-    top_idx = similarity[0].argsort()[-5:][::-1]
+    try:
+        query_vec = vectorizer.transform([query])
+        similarity = cosine_similarity(query_vec, tfidf_matrix)
+        top_idx = similarity[0].argsort()[-5:][::-1]
 
-    recommendations = []
-    for idx in top_idx:
-        recommendations.append({
-            "Title of Course": courses_df.iloc[idx]['Title of Course'],
-            "Roles": courses_df.iloc[idx]['Roles'],
-            "Skills": courses_df.iloc[idx]['Skills'],
-            "Platform": courses_df.iloc[idx]['Platform'],
-            "URL": courses_df.iloc[idx]['URL']
-        })
+        recommendations = []
+        for idx in top_idx:
+            recommendations.append({
+                "Title of Course": courses_df.iloc[idx]['Title of Course'],
+                "Roles": courses_df.iloc[idx]['Roles'],
+                "Skills": courses_df.iloc[idx]['Skills'],
+                "Platform": courses_df.iloc[idx]['Platform'],
+                "URL": courses_df.iloc[idx]['URL']
+            })
 
-    return jsonify({'recommendations': recommendations})
+        return jsonify({'recommendations': recommendations})
+
+    except Exception as e:
+        print("❌ Recommendation error:", e)
+        return jsonify({'recommendations': []})
 
 # --------------------------
-# Smart Mock Career Prediction API
+# Career Prediction API
 # --------------------------
 @app.route('/career-predict', methods=['POST'])
 def career_predict():
@@ -95,7 +108,15 @@ def career_predict():
     return jsonify({"prediction": ", ".join(predicted_roles)})
 
 # --------------------------
-# Run Flask App
+# Root Route (for testing)
+# --------------------------
+@app.route('/')
+def home():
+    return "🚀 Smart Roadmap Backend Running Successfully!"
+
+# --------------------------
+# Run Flask App (Render FIX)
 # --------------------------
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
