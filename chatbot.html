@@ -51,7 +51,7 @@ nav a {
   flex-direction: column;
 }
 
-/* ✅ Heading */
+/* Heading */
 .chat-heading {
   text-align: center;
   font-weight: 600;
@@ -77,13 +77,9 @@ nav a {
   white-space: pre-line;
 }
 
-/* ✅ Avatar */
-.message.user::before {
-  content: "👤 ";
-}
-.message.bot::before {
-  content: "🤖 ";
-}
+/* Avatar */
+.message.user::before { content: "👤 "; }
+.message.bot::before { content: "🤖 "; }
 
 .user {
   background: #CDAA80;
@@ -137,7 +133,6 @@ if (!user) window.location.replace("signinlogin.html#login");
 
 <nav>
   <a href="home.html">Career Pilot</a>
-
   <ul class="center-links">
     <li onclick="goIfLoggedIn('dashboard.html')">Dashboard</li>
     <li onclick="goIfLoggedIn('roadmap.html')">Roadmaps</li>
@@ -146,10 +141,7 @@ if (!user) window.location.replace("signinlogin.html#login");
 </nav>
 
 <div class="chat-container">
-
-  <!-- ✅ Heading -->
   <div class="chat-heading">🤖 Career AI Assistant</div>
-
   <div class="chat-window" id="chatWindow"></div>
 
   <div class="input-area">
@@ -175,24 +167,20 @@ const chatKey = "chatHistory_" + (currentUser?.email || "guest");
 let history = JSON.parse(localStorage.getItem(chatKey)) || [];
 let isLoading = true;
 
-/* AUTO SCROLL */
 function autoScroll() {
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
-/* CLEAR CHAT */
 function clearChat() {
   localStorage.removeItem(chatKey);
   chatWindow.innerHTML = "";
   history = [];
 }
 
-/* MESSAGE */
 function appendMessage(text, type, save=true) {
   const div = document.createElement('div');
   div.className = "message " + type;
   div.textContent = text;
-
   chatWindow.appendChild(div);
 
   if (!isLoading) autoScroll();
@@ -203,7 +191,6 @@ function appendMessage(text, type, save=true) {
   }
 }
 
-/* LOAD HISTORY */
 function loadHistory() {
   isLoading = true;
   history.forEach(m => appendMessage(m.text, m.type, false));
@@ -211,7 +198,6 @@ function loadHistory() {
   isLoading = false;
 }
 
-/* TYPE EFFECT */
 function typeMessage(text) {
   return new Promise(resolve => {
     const div = document.createElement('div');
@@ -234,7 +220,6 @@ function typeMessage(text) {
   });
 }
 
-/* FILTER */
 function isValidQuery(text) {
   const keywords = [
     "web","html","css","javascript","react",
@@ -245,11 +230,9 @@ function isValidQuery(text) {
     "cyber","security",
     "developer","engineer","roadmap","career"
   ];
-
   return keywords.some(k => new RegExp("\\b" + k + "\\b","i").test(text));
 }
 
-/* DOMAIN */
 function getDomain(text) {
   if (text.includes("android")) return "android";
   if (text.includes("cyber")) return "cyber";
@@ -260,7 +243,9 @@ function getDomain(text) {
   return null;
 }
 
-/* BOT */
+/* ✅ FIXED BACKEND URL */
+const BASE_URL = "https://smart-roadmap-backend.onrender.com";
+
 async function botResponse(msg) {
   const text = msg.toLowerCase().trim();
 
@@ -273,7 +258,7 @@ async function botResponse(msg) {
   }
 
   try {
-    const res1 = await fetch('http://127.0.0.1:5000/career-predict', {
+    const res1 = await fetch(`${BASE_URL}/career-predict`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_input: msg })
@@ -284,26 +269,14 @@ async function botResponse(msg) {
 
     const domain = getDomain(text);
 
-    if (domain === "android") {
-      roles = "Android Developer, Mobile App Developer, Kotlin Developer";
-    }
-    else if (domain === "cyber") {
-      roles = "Cyber Security Analyst, Ethical Hacker, Penetration Tester";
-    }
-    else if (domain === "web") {
-      roles = "Frontend Developer, Backend Developer, Full Stack Developer";
-    }
-    else if (domain === "data") {
-      roles = "Data Scientist, Data Analyst, ML Engineer";
-    }
-    else if (domain === "ai") {
-      roles = "AI Engineer, ML Engineer, Deep Learning Engineer";
-    }
-    else if (domain === "cloud") {
-      roles = "Cloud Engineer, DevOps Engineer, AWS Engineer";
-    }
+    if (domain === "android") roles = "Android Developer, Mobile App Developer, Kotlin Developer";
+    else if (domain === "cyber") roles = "Cyber Security Analyst, Ethical Hacker, Penetration Tester";
+    else if (domain === "web") roles = "Frontend Developer, Backend Developer, Full Stack Developer";
+    else if (domain === "data") roles = "Data Scientist, Data Analyst, ML Engineer";
+    else if (domain === "ai") roles = "AI Engineer, ML Engineer, Deep Learning Engineer";
+    else if (domain === "cloud") roles = "Cloud Engineer, DevOps Engineer, AWS Engineer";
 
-    const res2 = await fetch(`http://127.0.0.1:5000/recommend?query=${encodeURIComponent(roles)}`);
+    const res2 = await fetch(`${BASE_URL}/recommend?query=${encodeURIComponent(roles)}`);
     const data2 = await res2.json();
 
     let courses = "";
@@ -323,12 +296,12 @@ Here’s your next step:
 
 Ready to start? 😎${courses}`;
 
-  } catch {
-    return "⚠️ Backend not running.";
+  } catch (e) {
+    console.log(e);
+    return "⚠️ Backend not responding (Render may be sleeping). Try again in few seconds.";
   }
 }
 
-/* SEND */
 async function sendMessage() {
   const msg = userInput.value.trim();
   if (!msg) return;
@@ -340,13 +313,12 @@ async function sendMessage() {
   await typeMessage(reply);
 }
 
-/* EVENTS */
 sendBtn.onclick = sendMessage;
 userInput.addEventListener("keypress", e => {
   if (e.key === "Enter") sendMessage();
 });
 
-/* LOAD (🔥 FIXED HERE) */
+/* ✅ FIXED AUTO SEARCH */
 window.onload = () => {
   loadHistory();
 
@@ -359,7 +331,10 @@ window.onload = () => {
 
   if (query) {
     userInput.value = "Give roadmap for " + query;
-    setTimeout(sendMessage, 300);
+
+    setTimeout(() => {
+      sendMessage();
+    }, 800); // delay for render wakeup
   }
 };
 </script>

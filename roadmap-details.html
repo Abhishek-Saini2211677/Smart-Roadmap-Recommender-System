@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
+/* SAME CSS (UNCHANGED) */
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
@@ -16,12 +17,8 @@ body {
   text-align: center;
 }
 
-/* TITLE */
-h1 {
-  margin-top: 20px;
-}
+h1 { margin-top: 20px; }
 
-/* PROGRESS BAR */
 .progress-container {
   width: 80%;
   margin: 10px auto;
@@ -36,7 +33,6 @@ h1 {
   border-radius: 10px;
 }
 
-/* FLOW */
 .flow {
   display: flex;
   flex-direction: column;
@@ -44,7 +40,6 @@ h1 {
   margin-top: 30px;
 }
 
-/* STEP CARD */
 .step {
   background: rgba(255,255,255,0.08);
   padding: 15px;
@@ -56,23 +51,16 @@ h1 {
   transition: 0.3s;
 }
 
-.step:hover {
-  transform: scale(1.05);
-}
+.step:hover { transform: scale(1.05); }
 
-/* DONE STATE */
-.done {
-  background: rgba(0,255,150,0.2);
-}
+.done { background: rgba(0,255,150,0.2); }
 
-/* CHECKBOX */
 .check {
   position: absolute;
   left: 10px;
   top: 15px;
 }
 
-/* DETAILS */
 .details {
   display: none;
   font-size: 0.85rem;
@@ -80,13 +68,11 @@ h1 {
   opacity: 0.8;
 }
 
-/* TIME */
 .time {
   font-size: 0.8rem;
   color: #CDAA80;
 }
 
-/* ARROW */
 .step::after {
   content: "↓";
   position: absolute;
@@ -120,7 +106,7 @@ role = role.toLowerCase();
 
 document.getElementById("title").innerText = role.toUpperCase() + " ROADMAP";
 
-/* STORAGE KEY */
+/* STORAGE */
 const progressKey = "roadmap_progress_" + role;
 
 /* DATA */
@@ -180,18 +166,16 @@ else {
   ];
 }
 
-/* LOAD SAVED */
+/* LOAD */
 let saved = JSON.parse(localStorage.getItem(progressKey)) || [];
-
-/* RENDER */
 const flow = document.getElementById("flow");
 
+/* RENDER */
 roadmap.forEach((step,index)=>{
   const div = document.createElement("div");
   div.className = "step";
 
   const checked = saved.includes(index);
-
   if (checked) div.classList.add("done");
 
   div.innerHTML = `
@@ -204,14 +188,17 @@ roadmap.forEach((step,index)=>{
   const checkbox = div.querySelector(".check");
   const details = div.querySelector(".details");
 
-  /* TOGGLE DETAILS */
+  /* 🔥 CLICK → OPEN COURSES PAGE */
   div.onclick = (e) => {
     if (e.target.tagName !== "INPUT") {
+      // toggle details
       details.style.display = details.style.display === "block" ? "none" : "block";
+
+      // redirect with query
+      window.location.href = `pagecourse.html?query=${encodeURIComponent(step.name + " " + role)}`;
     }
   };
 
-  /* SAVE PROGRESS */
   checkbox.onclick = (e) => {
     e.stopPropagation();
 

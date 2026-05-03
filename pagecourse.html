@@ -15,7 +15,6 @@ body {
   color: #fff;
 }
 
-/* Glow */
 body::before {
   content: "";
   position: fixed;
@@ -30,7 +29,6 @@ body::before {
   z-index: 0;
 }
 
-/* Navbar */
 nav {
   display: flex;
   justify-content: space-between;
@@ -62,7 +60,6 @@ nav a {
   transform: translateY(-2px);
 }
 
-/* Content */
 .content {
   padding: 40px;
   max-width: 1200px;
@@ -75,7 +72,6 @@ h2 {
   margin-bottom: 20px;
 }
 
-/* Search */
 .search-container {
   display: flex;
   gap: 10px;
@@ -90,7 +86,6 @@ h2 {
   font-size: 1rem;
 }
 
-/* Button */
 .search-container button {
   padding: 12px 25px;
   border-radius: 25px;
@@ -106,14 +101,12 @@ h2 {
   box-shadow: 0 0 15px rgba(205,170,128,0.6);
 }
 
-/* Grid */
 .courses-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
   gap: 20px;
 }
 
-/* Card */
 .course-card {
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(12px);
@@ -156,7 +149,6 @@ if (!user) {
   <a href="home.html">Career Pilot</a>
 
   <div class="center-links">
-    <!-- ✅ ADDED DASHBOARD -->
     <span onclick="go('dashboard.html')">Dashboard</span>
     <span onclick="go('chatbot.html')">Chatbot</span>
     <span onclick="go('roadmap.html')">Roadmaps</span>
@@ -172,7 +164,6 @@ if (!user) {
   </div>
 
   <div id="status" class="status"></div>
-
   <div class="courses-grid" id="coursesGrid"></div>
 </div>
 
@@ -186,13 +177,15 @@ const btn = document.getElementById("searchBtn");
 const grid = document.getElementById("coursesGrid");
 const status = document.getElementById("status");
 
-/* ✅ USER KEY */
+/* ✅ LIVE BACKEND URL */
+const BASE_URL = "https://smart-roadmap-backend.onrender.com";
+
+/* USER TRACKING */
 const currentUser = JSON.parse(localStorage.getItem("careerpilotUser"));
 const courseKey = "courseCount_" + (currentUser?.email || "guest");
 
 let courseCount = parseInt(localStorage.getItem(courseKey)) || 0;
 
-/* ✅ TRACK COURSE VIEW */
 function trackCourseClick() {
   courseCount++;
   localStorage.setItem(courseKey, courseCount);
@@ -205,7 +198,7 @@ async function fetchCourses(query) {
   status.innerText = "⏳ Loading courses...";
 
   try {
-    const res = await fetch(`http://127.0.0.1:5000/recommend?query=${encodeURIComponent(query)}`);
+    const res = await fetch(`${BASE_URL}/recommend?query=${encodeURIComponent(query)}`);
     const data = await res.json();
 
     if (!data.recommendations || data.recommendations.length === 0) {
@@ -231,7 +224,7 @@ async function fetchCourses(query) {
 
   } catch (error) {
     console.error(error);
-    status.innerText = "⚠️ Server error. Try again.";
+    status.innerText = "⚠️ Backend sleeping... try again in few seconds.";
   }
 }
 
@@ -245,13 +238,17 @@ input.addEventListener("keypress", (e) => {
   }
 });
 
+/* ✅ AUTO SEARCH FIX */
 window.addEventListener("load", () => {
   const params = new URLSearchParams(window.location.search);
   const query = params.get("query");
 
   if (query) {
     input.value = query;
-    fetchCourses(query);
+
+    setTimeout(() => {
+      fetchCourses(query);
+    }, 800);
   }
 });
 </script>

@@ -129,15 +129,17 @@ nav a {
 <script>
 function go(page){ window.location.href=page; }
 
+/* ✅ FIXED FUNCTIONS */
 function goToCourses(role){
-  window.location.href="pagecourse.html?query="+encodeURIComponent(role);
+  const clean = role.toLowerCase().trim();
+  window.location.href = "pagecourse.html?query=" + encodeURIComponent(clean);
 }
 
 function goToChatbot(role){
-  window.location.href="chatbot.html?query="+encodeURIComponent(role);
+  const clean = role.toLowerCase().trim();
+  window.location.href = "chatbot.html?query=" + encodeURIComponent(clean);
 }
 
-/* ✅ NEW FUNCTION */
 function openDetails(title){
   window.location.href = "roadmap-details.html?role=" + encodeURIComponent(title);
 }
@@ -177,7 +179,7 @@ function saveTicks(){
   localStorage.setItem("roadmapTicks",JSON.stringify(ticks));
 }
 
-/* 25% LOGIC */
+/* STEP TOGGLE */
 function toggleStep(el,index,stepIndex){
   event.stopPropagation();
 
