@@ -109,7 +109,6 @@ nav a {
 <body>
 
 <script>
-/* ✅ AUTO LOGOUT FIX (ONLY CHANGE HERE) */
 const user = sessionStorage.getItem("careerpilotUser");
 if (!user) window.location.replace("signinlogin.html#login");
 </script>
@@ -136,16 +135,20 @@ if (!user) window.location.replace("signinlogin.html#login");
 
 <script>
 
-/* ✅ CHANGE HERE ALSO */
 function goIfLoggedIn(page) {
   const user = sessionStorage.getItem("careerpilotUser");
   window.location.href = user ? page : "signinlogin.html#login";
 }
 
-/* ✅ CHANGE HERE */
 const currentUser = JSON.parse(sessionStorage.getItem("careerpilotUser"));
 
-/* ❌ REMAINING CODE SAME */
+/* ✅ CHAT COUNT FIX (ONLY ONCE) */
+function increaseChatCount() {
+  const key = "chatCount_" + (currentUser?.email || "guest");
+  let count = parseInt(localStorage.getItem(key)) || 0;
+  localStorage.setItem(key, count + 1);
+}
+
 const sendBtn = document.getElementById('sendBtn');
 const userInput = document.getElementById('userInput');
 const chatWindow = document.getElementById('chatWindow');
@@ -208,40 +211,14 @@ function typeMessage(text) {
   });
 }
 
-function isValidQuery(text) {
-  const keywords = [
-    "web","html","css","javascript","react",
-    "python","data","data science","machine learning","ml",
-    "ai","deep learning","nlp",
-    "android","kotlin","app",
-    "cloud","aws","docker",
-    "cyber","security",
-    "developer","engineer","roadmap","career"
-  ];
-  return keywords.some(k => new RegExp("\\b" + k + "\\b","i").test(text));
-}
-
-function getDomain(text) {
-  if (text.includes("android")) return "android";
-  if (text.includes("cyber")) return "cyber";
-  if (text.includes("web")) return "web";
-  if (text.includes("data")) return "data";
-  if (text.includes("ai") || text.includes("ml")) return "ai";
-  if (text.includes("cloud")) return "cloud";
-  return null;
-}
-
-const BASE_URL = "https://smart-roadmap-backend.onrender.com";
+/* ✅ FIXED URL */
+const BASE_URL = "https://smart-roadmap-recommender-system-production.up.railway.app";
 
 async function botResponse(msg) {
   const text = msg.toLowerCase().trim();
 
   if (["hi","hello","hey"].includes(text)) {
     return "👋 Hey! Tell me your interest like web, AI, data science and I’ll guide you 🚀";
-  }
-
-  if (!isValidQuery(text)) {
-    return "❌ Please ask something related to career.\n\nExample:\n• Android roadmap\n• Cyber security path";
   }
 
   try {
@@ -253,15 +230,6 @@ async function botResponse(msg) {
 
     const data1 = await res1.json();
     let roles = data1.prediction;
-
-    const domain = getDomain(text);
-
-    if (domain === "android") roles = "Android Developer, Mobile App Developer, Kotlin Developer";
-    else if (domain === "cyber") roles = "Cyber Security Analyst, Ethical Hacker, Penetration Tester";
-    else if (domain === "web") roles = "Frontend Developer, Backend Developer, Full Stack Developer";
-    else if (domain === "data") roles = "Data Scientist, Data Analyst, ML Engineer";
-    else if (domain === "ai") roles = "AI Engineer, ML Engineer, Deep Learning Engineer";
-    else if (domain === "cloud") roles = "Cloud Engineer, DevOps Engineer, AWS Engineer";
 
     const res2 = await fetch(`${BASE_URL}/recommend?query=${encodeURIComponent(roles)}`);
     const data2 = await res2.json();
@@ -284,16 +252,19 @@ Here’s your next step:
 Ready to start? 😎${courses}`;
 
   } catch (e) {
-    return "⚠️ Backend not responding (Render may be sleeping). Try again.";
+    return "⚠️ Backend not responding (Railway sleeping or error).";
   }
 }
 
+/* ✅ ONLY PLACE WHERE COUNT INCREASES */
 async function sendMessage() {
   const msg = userInput.value.trim();
   if (!msg) return;
 
   appendMessage(msg, "user");
   userInput.value = "";
+
+  increaseChatCount(); // 🔥 FIX
 
   const reply = await botResponse(msg);
   await typeMessage(reply);
@@ -318,7 +289,7 @@ window.onload = () => {
     userInput.value = "Give roadmap for " + query;
 
     setTimeout(() => {
-      sendMessage();
+      sendMessage(); // ✅ NO DOUBLE COUNT
     }, 800);
   }
 };
