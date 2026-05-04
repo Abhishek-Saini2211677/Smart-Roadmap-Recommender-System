@@ -142,7 +142,6 @@ function goIfLoggedIn(page) {
 
 const currentUser = JSON.parse(sessionStorage.getItem("careerpilotUser"));
 
-/* ✅ CHAT COUNT FIX (ONLY ONCE) */
 function increaseChatCount() {
   const key = "chatCount_" + (currentUser?.email || "guest");
   let count = parseInt(localStorage.getItem(key)) || 0;
@@ -156,7 +155,6 @@ const chatWindow = document.getElementById('chatWindow');
 const chatKey = "chatHistory_" + (currentUser?.email || "guest");
 
 let history = JSON.parse(localStorage.getItem(chatKey)) || [];
-let isLoading = true;
 
 function autoScroll() {
   chatWindow.scrollTop = chatWindow.scrollHeight;
@@ -174,8 +172,6 @@ function appendMessage(text, type, save=true) {
   div.textContent = text;
   chatWindow.appendChild(div);
 
-  if (!isLoading) autoScroll();
-
   if (save) {
     history.push({ text, type });
     localStorage.setItem(chatKey, JSON.stringify(history));
@@ -183,10 +179,7 @@ function appendMessage(text, type, save=true) {
 }
 
 function loadHistory() {
-  isLoading = true;
   history.forEach(m => appendMessage(m.text, m.type, false));
-  chatWindow.scrollTop = chatWindow.scrollHeight;
-  isLoading = false;
 }
 
 function typeMessage(text) {
@@ -211,8 +204,142 @@ function typeMessage(text) {
   });
 }
 
-/* ✅ FIXED URL */
-const BASE_URL = "https://smart-roadmap-recommender-system-production.up.railway.app";
+/* ✅ UPDATED DOMAIN DETECTION */
+function detectDomain(text) {
+  if (text.includes("java") || text.includes("spring"))
+    return "java";
+
+  if (text.includes("web") || text.includes("html") || text.includes("css") || text.includes("javascript"))
+    return "web";
+
+  if (text.includes("data"))
+    return "data";
+
+  if (text.includes("ai") || text.includes("ml"))
+    return "ai";
+
+  if (text.includes("android") || text.includes("kotlin"))
+    return "android";
+
+  if (text.includes("cyber") || text.includes("security"))
+    return "cyber";
+
+  if (text.includes("cloud") || text.includes("aws"))
+    return "cloud";
+
+  return null;
+}
+
+/* ✅ UPDATED RESPONSES */
+function getResponse(domain) {
+
+  if (domain === "java")
+    return `🚀 Based on your interest, I recommend becoming a Java Developer, Backend Developer, Spring Boot Developer.
+
+Here’s your next step:
+✔ Learn Core Java
+✔ Learn Spring Boot
+✔ Build backend projects
+
+Ready to start? 😎
+
+📚 Top Courses:
+• Java Programming Masterclass
+• Spring Boot Fundamentals
+• Java Backend Development`;
+
+  if (domain === "web")
+    return `🚀 Based on your interest, I recommend becoming a Frontend Developer, Backend Developer, Full Stack Developer.
+
+Here’s your next step:
+✔ Learn fundamentals
+✔ Build projects
+✔ Practice
+
+Ready to start? 😎
+
+📚 Top Courses:
+• Meta Front-End Developer
+• Responsive Web Design
+• Full Stack Web Development`;
+
+  if (domain === "data")
+    return `🚀 Based on your interest, I recommend becoming a Data Analyst, Data Scientist, Business Intelligence Analyst, Data Engineer.
+
+Here’s your next step:
+✔ Learn fundamentals
+✔ Build projects
+✔ Practice
+
+Ready to start? 😎
+
+📚 Top Courses:
+• Google Data Analytics Professional Certificate
+• AI For Business Specialization
+• Business Analyst with SQL and Tableau`;
+
+  if (domain === "ai")
+    return `🚀 Based on your interest, I recommend becoming a AI Engineer, Machine Learning Engineer, Data Scientist.
+
+Here’s your next step:
+✔ Learn fundamentals
+✔ Build projects
+✔ Practice
+
+Ready to start? 😎
+
+📚 Top Courses:
+• Machine Learning Specialization
+• Deep Learning Specialization
+• Mathematics for Machine Learning`;
+
+  if (domain === "android")
+    return `🚀 Based on your interest, I recommend becoming a Android Developer, Mobile App Developer.
+
+Here’s your next step:
+✔ Learn fundamentals
+✔ Build projects
+✔ Practice
+
+Ready to start? 😎
+
+📚 Top Courses:
+• Android Kotlin Masterclass
+• Android App Development Specialization
+• Flutter Development`;
+
+  if (domain === "cyber")
+    return `🚀 Based on your interest, I recommend becoming a Cyber Security Analyst, Ethical Hacker, Penetration Tester.
+
+Here’s your next step:
+✔ Learn fundamentals
+✔ Build projects
+✔ Practice
+
+Ready to start? 😎
+
+📚 Top Courses:
+• Cyber Security Fundamentals
+• Ethical Hacking Course
+• Network Security`;
+
+  if (domain === "cloud")
+    return `🚀 Based on your interest, I recommend becoming a Cloud Engineer, DevOps Engineer, AWS Engineer.
+
+Here’s your next step:
+✔ Learn fundamentals
+✔ Build projects
+✔ Practice
+
+Ready to start? 😎
+
+📚 Top Courses:
+• AWS Solutions Architect
+• Google Cloud Certification
+• Cloud Computing Basics`;
+
+  return null;
+}
 
 async function botResponse(msg) {
   const text = msg.toLowerCase().trim();
@@ -221,42 +348,15 @@ async function botResponse(msg) {
     return "👋 Hey! Tell me your interest like web, AI, data science and I’ll guide you 🚀";
   }
 
-  try {
-    const res1 = await fetch(`${BASE_URL}/career-predict`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user_input: msg })
-    });
+  const domain = detectDomain(text);
 
-    const data1 = await res1.json();
-    let roles = data1.prediction;
-
-    const res2 = await fetch(`${BASE_URL}/recommend?query=${encodeURIComponent(roles)}`);
-    const data2 = await res2.json();
-
-    let courses = "";
-    if (data2.recommendations?.length) {
-      courses = "\n\n📚 Top Courses:\n";
-      data2.recommendations.slice(0,3).forEach(c=>{
-        courses += "• " + c["Title of Course"] + "\n";
-      });
-    }
-
-    return `🚀 Based on your interest, I recommend becoming a ${roles}.
-
-Here’s your next step:
-✔ Learn fundamentals  
-✔ Build projects  
-✔ Practice  
-
-Ready to start? 😎${courses}`;
-
-  } catch (e) {
-    return "⚠️ Backend not responding (Railway sleeping or error).";
+  if (!domain) {
+    return "❌ Please ask about career domains like web, java, data science, AI/ML, android, cyber security, cloud.";
   }
+
+  return getResponse(domain);
 }
 
-/* ✅ ONLY PLACE WHERE COUNT INCREASES */
 async function sendMessage() {
   const msg = userInput.value.trim();
   if (!msg) return;
@@ -264,7 +364,7 @@ async function sendMessage() {
   appendMessage(msg, "user");
   userInput.value = "";
 
-  increaseChatCount(); // 🔥 FIX
+  increaseChatCount();
 
   const reply = await botResponse(msg);
   await typeMessage(reply);
@@ -289,7 +389,7 @@ window.onload = () => {
     userInput.value = "Give roadmap for " + query;
 
     setTimeout(() => {
-      sendMessage(); // ✅ NO DOUBLE COUNT
+      sendMessage();
     }, 800);
   }
 };
